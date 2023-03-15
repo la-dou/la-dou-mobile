@@ -26,6 +26,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import SplashScreen from './src/screens/SplashScreen';
+import Navigation from './src/Navigation';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -71,7 +72,7 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={isDarkMode ? Colors.darker : Colors.lighter}
       />
-      <SplashScreen />
+      <Navigation />
       {/* <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
