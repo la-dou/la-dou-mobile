@@ -1,9 +1,9 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import { RootStackParamList } from '../Navigation';
+import {RootStackParamList} from '../Navigation';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppTextInput from '../components/AppTextInput';
@@ -22,26 +22,18 @@ const Signup: React.FC<SignupProps> = ({navigation}) => {
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
           Sign Up
         </HrText>
-        <AppTextInput
-          placeholder="Full Name"
-        />
-        <AppTextInput
-          placeholder="Roll Number"
-        />
-        <AppTextInput
-          placeholder="Password"
-        />
-        <AppTextInput
-          placeholder="Gender"
-        />
-        <AppTextInput
-          placeholder="Phone Number"
-        />
+        <AppTextInput placeholder="Full Name" />
+        <AppTextInput placeholder="Roll Number" />
+        <AppTextInput placeholder="Password" />
+        <AppTextInput placeholder="Gender" />
+        <AppTextInput placeholder="Phone Number" />
         <Button primary>Continue</Button>
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
           or
         </HrText>
-        <Button primary onPress={()=> navigation.replace('Login')}>Login</Button>
+        <Button primary onPress={() => navigation.replace('Login')}>
+          Login
+        </Button>
       </View>
     </View>
   );
