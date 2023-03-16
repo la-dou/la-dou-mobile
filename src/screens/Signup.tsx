@@ -1,13 +1,17 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+import { RootStackParamList } from '../Navigation';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppTextInput from '../components/AppTextInput';
 import Button from '../components/Button';
 
-const Signup = ({navigation}) => {
+type SignupProps = NativeStackScreenProps<RootStackParamList, 'Signup'>;
+
+const Signup: React.FC<SignupProps> = ({navigation}) => {
   const {colors} = useTheme();
   return (
     <View style={styles.container}>
@@ -37,7 +41,7 @@ const Signup = ({navigation}) => {
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
           or
         </HrText>
-        <Button primary onPress={()=> navigation.goBack()}>Login</Button>
+        <Button primary onPress={()=> navigation.replace('Login')}>Login</Button>
       </View>
     </View>
   );
