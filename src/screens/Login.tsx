@@ -1,13 +1,17 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {RootStackParamList} from '../Navigation';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
 
-const Login = ({navigation}) => {
+type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
+
+const Login: React.FC<LoginProps> = ({navigation}) => {
   const {colors} = useTheme();
   const [rollNumber, setRollNumber] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -38,7 +42,7 @@ const Login = ({navigation}) => {
           or
         </HrText>
         <AppButton primary>Forgot Passsword?</AppButton>
-        <AppButton primary onPress={() => navigation.navigate('Signup')}>
+        <AppButton primary onPress={() => navigation.replace('Signup')}>
           Signup
         </AppButton>
       </View>
@@ -54,12 +58,12 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   logoContainer: {
-    flex: 1,
+    flex: 0.8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   formContainer: {
-    flex: 1,
+    flex: 1.2,
     alignItems: 'center',
     justifyContent: 'center',
   },

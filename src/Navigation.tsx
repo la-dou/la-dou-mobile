@@ -7,8 +7,6 @@ import SplashScreen from './screens/SplashScreen';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
 
-const Stack = createNativeStackNavigator();
-
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -20,6 +18,13 @@ const MyTheme = {
     border: '#591028',
   },
 };
+
+export type RootStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
   const [initialLoading, setInitialLoading] = React.useState(true);
