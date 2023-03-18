@@ -6,16 +6,14 @@ export type ButtonProps = {
   children: string;
   primary?: boolean;
   onPress?: () => void;
-
-  opacity?: boolean;
+  inactive?: boolean;
 };
 
 const Button: React.FC<ButtonProps> = ({
   children,
   primary,
   onPress,
-
-  opacity,
+  inactive,
 }) => {
   const {colors} = useTheme();
   return (
@@ -26,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
         height: 38,
         width: '90%',
         marginVertical: 10,
-        opacity: opacity ? 0.3 : 1,
+        opacity: inactive ? 0.3 : 1,
       }}
       onPress={onPress}>
       <Text

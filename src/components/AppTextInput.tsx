@@ -9,6 +9,7 @@ export type AppTextInputProps = {
   maxLength?: number;
   secureTextEntry?: boolean;
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
+  containerStyle?: any;
 };
 
 const AppTextInput: React.FC<AppTextInputProps> = ({
@@ -18,10 +19,11 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
   maxLength,
   secureTextEntry,
   keyboardType,
+  containerStyle,
 }) => {
   const {colors} = useTheme();
   return (
-    <View style={{width: '94%', alignSelf: 'flex-start'}}>
+    <View style={[{width: '94%', alignSelf: 'flex-start', marginVertical: 10}, containerStyle]}>
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={colors.primary}
@@ -36,9 +38,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
           borderBottomWidth: 1,
           fontSize: 16,
           fontFamily: 'Montserrat-Light',
-          width: '100%',
           height: 40,
-          marginVertical: 10,
         }}
       />
     </View>
