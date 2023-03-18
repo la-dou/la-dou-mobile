@@ -27,7 +27,9 @@ const Signup: React.FC<SignupProps> = ({navigation}) => {
         <AppTextInput placeholder="Password" />
         <AppTextInput placeholder="Gender" />
         <AppTextInput placeholder="Phone Number" />
-        <Button primary>Continue</Button>
+        <Button primary onPress={() => navigation.navigate('Otp')}>
+          Continue
+        </Button>
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
           or
         </HrText>
