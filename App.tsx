@@ -25,8 +25,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import SplashScreen from './src/screens/SplashScreen';
-import Navigation from './src/Navigation';
+import Navigation from './src/navigation/Navigation';
 
 type SectionProps = PropsWithChildren<{
   title: string;

@@ -3,13 +3,13 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../Navigation';
+import {AuthStackParamList} from '../navigation/AuthStack';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppTextInput from '../components/AppTextInput';
 import Button from '../components/Button';
 
-type SignupProps = NativeStackScreenProps<RootStackParamList, 'Signup'>;
+type SignupProps = NativeStackScreenProps<AuthStackParamList, 'Signup'>;
 
 const Signup: React.FC<SignupProps> = ({navigation}) => {
   const {colors} = useTheme();

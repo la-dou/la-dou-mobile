@@ -3,13 +3,13 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../Navigation';
+import {AuthStackParamList} from '../navigation/AuthStack';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
 
-type OtpProps = NativeStackScreenProps<RootStackParamList, 'Otp'>;
+type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'>;
 
 const Otp: React.FC<OtpProps> = ({navigation}) => {
   const {colors} = useTheme();
