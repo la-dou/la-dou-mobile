@@ -2,7 +2,10 @@ import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useRecoilState} from 'recoil';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
+import {authToken as authTokenAtom} from '../atoms';
 import {AuthStackParamList} from '../navigation/AuthStack';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
@@ -15,6 +18,16 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
   const {colors} = useTheme();
   const [rollNumber, setRollNumber] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+
+  const handleLogin = () => {
+    // handle incorrect input formats
+    // handle API call
+    // update state
+    // store token in encrypted storage
+    EncryptedStorage.setItem('token', authToken);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
