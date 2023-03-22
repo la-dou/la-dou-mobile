@@ -46,7 +46,8 @@ const NewPassword: React.FC<NewPasswordProps> = ({navigation}) => {
           onPress={() => {
             if (newPassword === confirmPassword) {
               //add validation for empty fields, password length, etc
-              navigation.replace('Login'); //TODO: replace it with home screen
+              //navigation.replace('Login'); //TODO: replace it with home screen
+              Alert.alert('Password changed successfully');
             } else {
               Alert.alert('Password does not match');
             }
