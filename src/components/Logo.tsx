@@ -13,7 +13,18 @@ const Logo: React.FC<LogoProps> = ({size, noBackground = false}) => {
     return (
       <Image
         source={require('../assets/images/logo.png')}
-        style={{height: size * 6, aspectRatio: 0.8, tintColor: colors.primary}}
+        style={{
+          // position it on the top right
+          position: 'absolute',
+          top: 5,
+          right: 15,
+          // set the size
+          width: size * 6,
+          height: size * 6,
+          resizeMode: 'contain',
+          tintColor: colors.primary,
+          zIndex: 1,
+        }}
       />
     );
   else
@@ -25,4 +36,5 @@ const Logo: React.FC<LogoProps> = ({size, noBackground = false}) => {
     );
 };
 
+//height: size * 6, aspectRatio: 0.8, tintColor: colors.primary,
 export default Logo;

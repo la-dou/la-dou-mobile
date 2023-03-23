@@ -30,7 +30,7 @@ const Navigation = () => {
     <NavigationContainer theme={PrimaryTheme}>
       {initialLoading ? (
         <SplashScreen />
-      ) : authToken ? (
+      ) : !authToken ? (
         <UserDriverStack />
       ) : (
         <Auth />
