@@ -16,9 +16,13 @@ const Navigation = () => {
 
   React.useEffect(() => {
     const retrieveToken = async () => {
-      const token = await EncryptedStorage.getItem('token');
-      if (token) {
-        setAuthToken(token);
+      try {
+        const token = await EncryptedStorage.getItem('token');
+        if (token) {
+          setAuthToken(token);
+        }
+      } catch (error) {
+        console.log(error);
       }
       setInitialLoading(false);
     };

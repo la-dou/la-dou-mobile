@@ -27,16 +27,18 @@ const Button: React.FC<ButtonProps> = ({
         opacity: inactive ? 0.3 : 1,
       }}
       onPress={onPress}>
-      <Text
-        style={{
-          fontFamily: 'Montserrat-Medium',
-          color: primary ? colors.border : colors.primary,
-          textAlign: 'center',
-          fontSize: 16,
-          lineHeight: 38,
-        }}>
-        {children}
-      </Text>
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text
+          style={{
+            fontFamily: 'Montserrat-Medium',
+            color: primary ? colors.border : colors.primary,
+            textAlign: 'center',
+            fontSize: 16,
+            lineHeight: 38,
+          }}>
+          {children}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
