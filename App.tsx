@@ -8,7 +8,10 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   useColorScheme,
@@ -35,7 +38,13 @@ function App(): JSX.Element {
             isDarkMode ? PrimaryTheme.colors.background : '#ffffff'
           }
         />
-        <Navigation />
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          {/* <ScrollView keyboardShouldPersistTaps="handled"> */}
+          <Navigation />
+          {/* </ScrollView> */}
+        </KeyboardAvoidingView>
       </RecoilRoot>
     </SafeAreaView>
   );

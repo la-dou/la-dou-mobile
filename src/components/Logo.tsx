@@ -1,4 +1,4 @@
-import {Image} from 'react-native';
+import {Image, Keyboard} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 
@@ -31,7 +31,8 @@ const Logo: React.FC<LogoProps> = ({size, noBackground = false}) => {
     return (
       <Image
         source={require('../assets/images/logo-with-background.png')}
-        style={{height: size * 6, aspectRatio: 1}}
+        style={{
+          height: size * 6, aspectRatio: 1}}
       />
     );
 };

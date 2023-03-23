@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -23,10 +23,10 @@ const Signup: React.FC<SignupProps> = ({navigation}) => {
           Sign Up
         </HrText>
         <AppTextInput placeholder="Full Name" />
-        <AppTextInput placeholder="Roll Number" />
-        <AppTextInput placeholder="Password" />
+        <AppTextInput placeholder="Roll Number" keyboardType='numeric' />
+        <AppTextInput secureTextEntry placeholder="Password" />
         <AppTextInput placeholder="Gender" />
-        <AppTextInput placeholder="Phone Number" />
+        <AppTextInput placeholder="Phone Number" keyboardType='numeric' />
         <Button primary onPress={() => navigation.navigate('Otp')}>
           Continue
         </Button>
