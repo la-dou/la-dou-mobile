@@ -30,7 +30,7 @@ function App(): JSX.Element {
     <SafeAreaView style={backgroundStyle}>
       <RecoilRoot>
         <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={
             isDarkMode ? PrimaryTheme.colors.background : '#ffffff'
           }

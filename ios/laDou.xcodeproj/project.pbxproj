@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* laDouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* laDouTests.m */; };
+		012453B429CCC9BB00781F66 /* logo-tinted.png in Resources */ = {isa = PBXBuildFile; fileRef = 012453B329CCC9BB00781F66 /* logo-tinted.png */; };
 		0C80B921A6F3F58F76C31292 /* libPods-laDou.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-laDou.a */; };
 		1367F09CEF2E4F458E416BAD /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A3F8C364B8FF4576BE72A3FF /* Montserrat-BoldItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
@@ -50,6 +51,7 @@
 		00E356EE1AD99517003FC87E /* laDouTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = laDouTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* laDouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = laDouTests.m; sourceTree = "<group>"; };
+		012453B329CCC9BB00781F66 /* logo-tinted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-tinted.png"; path = "../src/assets/images/logo-tinted.png"; sourceTree = "<group>"; };
 		030E36593687446F930638C8 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.ttf"; path = "../src/assets/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* laDou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = laDou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = laDou/AppDelegate.h; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 		FF640784C47141879656233A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				012453B329CCC9BB00781F66 /* logo-tinted.png */,
 				E11D05614AE54E9D8D04FD29 /* Montserrat-Black.ttf */,
 				6AB62D7AF12E449E9645BCBF /* Montserrat-BlackItalic.ttf */,
 				B52A346B8528408C83755E00 /* Montserrat-Bold.ttf */,
@@ -314,6 +317,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				472B0D8BEC984BDF81E105B2 /* Montserrat-Black.ttf in Resources */,
 				25931E9F5D7A4D1BBA392BA7 /* Montserrat-BlackItalic.ttf in Resources */,
+				012453B429CCC9BB00781F66 /* logo-tinted.png in Resources */,
 				976C558C680F49608CB80C4B /* Montserrat-Bold.ttf in Resources */,
 				1367F09CEF2E4F458E416BAD /* Montserrat-BoldItalic.ttf in Resources */,
 				4B5532FD415846619EDB9093 /* Montserrat-ExtraBold.ttf in Resources */,
