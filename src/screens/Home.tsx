@@ -1,15 +1,46 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import Logo from '../components/Logo';
+import {useRecoilState} from 'recoil';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
+import {authToken as authTokenAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
+import {getUser} from '../api/User';
+
+interface userDetailsInterface {
+  name: string;
+  roll_no: string;
+  phone_number: string;
+  phone_verified: boolean;
+  email_verified: boolean;
+}
 
 const Home = () => {
+  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  const [userDetails, setUserDetails] =
+    React.useState<userDetailsInterface | null>(null);
+
+  React.useEffect(() => {
+    const retriveUserDetails = async () => {
+      try {
+        const user = await getUser(authToken);
+        setUserDetails(user);
+        console.log(userDetails);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    retriveUserDetails();
+  }, []);
+
   return (
     <View style={styles.continaer}>
       <View style={styles.greetingContainer}>
-        <Text style={styles.greeting}>Hi there,{'\n'}Saad</Text>
+        <Text style={styles.greeting}>
+          Hi there,{`\n${userDetails?.name.split(' ')[0]}`}
+        </Text>
       </View>
       <View style={styles.menuContainer}>
         <MenuButton
@@ -33,6 +64,10 @@ const Home = () => {
         <MenuButton
           iconSource={require('../assets/images/logout-icon.png')}
           text="Logout"
+          onPress={() => {
+            setAuthToken('');
+            // EncryptedStorage.removeItem('token')
+          }}
         />
       </View>
     </View>

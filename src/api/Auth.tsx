@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-const API_URL = 'https://reqres.in/api/login';
+const API_URL = 'http://10.0.2.2:8000';
 
-export const login = async (rollNo: Number, password: string) => {
-  const response = await axios.post(
-    'https://reqres.in/api/login',
-    {
-      rollNo,
+export const login = async (username: string, password: string) => {
+  const config = {
+    method: "post",
+    url: `${API_URL}/login`,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: {
+      username,
       password,
     },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
+  };
+  const response = await axios(config);
   return response.data;
 };
 
