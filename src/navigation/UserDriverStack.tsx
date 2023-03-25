@@ -7,16 +7,17 @@ import Home from '../screens/Home';
 import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 
-export type AuthStackParamList = {
+export type MainStack = {
   Home: undefined;
+  Otp: undefined;
 };
 
-const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const MainStack = createNativeStackNavigator<MainStack>();
 
 const Auth = () => {
   const navigation = useNavigation();
   return (
-    <AuthStack.Navigator
+    <MainStack.Navigator
       screenOptions={{
         header: () => (
           <>
@@ -27,12 +28,13 @@ const Auth = () => {
         headerRight: () => <Logo size={12} noBackground />,
       }}
       initialRouteName="Home">
-      <AuthStack.Screen
+      <MainStack.Screen
         name="Home"
         component={Home}
         options={{header: () => <Logo size={12} noBackground />}}
       />
-    </AuthStack.Navigator>
+      
+    </MainStack.Navigator>
   );
 };
 

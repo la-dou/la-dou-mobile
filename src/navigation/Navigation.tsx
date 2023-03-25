@@ -30,6 +30,15 @@ const Navigation = () => {
     retrieveToken();
   }, []);
 
+  React.useEffect(() => {
+    if (authToken) {
+      EncryptedStorage.setItem('token', authToken);
+    } else {
+      EncryptedStorage.removeItem('token');
+    }
+    console.log(authToken)
+  }, [authToken])
+
   return (
     <NavigationContainer theme={PrimaryTheme}>
       {initialLoading ? (

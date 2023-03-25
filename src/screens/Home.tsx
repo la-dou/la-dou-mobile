@@ -1,15 +1,66 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
-import Logo from '../components/Logo';
+import {useRecoilState} from 'recoil';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
+import {authToken as authTokenAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
+import {getUser} from '../api/User';
+import { useNavigation } from '@react-navigation/native';
+import { MainStack } from '../navigation/UserDriverStack';
 
-const Home = () => {
+interface userDetailsInterface {
+  name: string;
+  roll_no: string;
+  phone_number: string;
+  phone_verified: boolean;
+  email_verified: boolean;
+}
+
+type LoginProps = NativeStackScreenProps<MainStack, 'Home'>;
+
+const Home: React.FC<LoginProps> = ({navigation}) => {
+  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  const [userDetails, setUserDetails] =
+    React.useState<userDetailsInterface | null>(null);
+
+  React.useEffect(() => {
+    const retriveUserDetails = async () => {
+      try {
+        const user = await getUser(authToken);
+        setUserDetails(user);
+        return user;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    retriveUserDetails().then(user => {
+      if (!user.email_verified || !user.phone_verified) {
+        Alert.alert(
+          'Account not verified',
+          "You need to verify your email and password before you can use the app. You'll now be redirected to the OTP page to verify your account.",
+        );
+        // navigation.navigate('Otp');
+      }
+    });
+  }, []);
+
   return (
     <View style={styles.continaer}>
       <View style={styles.greetingContainer}>
-        <Text style={styles.greeting}>Hi there,{'\n'}Saad</Text>
+        <Text style={styles.greeting}>
+          Hi there,{`\n${userDetails?.name.split(' ')[0]}`}
+        </Text>
       </View>
       <View style={styles.menuContainer}>
         <MenuButton
@@ -33,6 +84,10 @@ const Home = () => {
         <MenuButton
           iconSource={require('../assets/images/logout-icon.png')}
           text="Logout"
+          onPress={() => {
+            setAuthToken('');
+            // EncryptedStorage.removeItem('token')
+          }}
         />
       </View>
     </View>
