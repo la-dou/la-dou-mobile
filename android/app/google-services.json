@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "925925834059",
+    "project_id": "la-dou",
+    "storage_bucket": "la-dou.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925925834059:android:3efeb4b60276d78ecbfcce",
+        "android_client_info": {
+          "package_name": "com.ladou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925925834059-4eq4oemsvs9hcnghb47k7ns6pum9olri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ladou",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "925925834059-3jq5ltrgrjaljn19hd5aao78v0in8u09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpeAoMdK0Tw4CIsvEXgqobfpnCMER4Iwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925925834059-3jq5ltrgrjaljn19hd5aao78v0in8u09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
