@@ -11,14 +11,13 @@ import AppTextInput from '../components/AppTextInput';
 
 type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'>;
 
-const Otp: React.FC<OtpProps> = ({navigation}) => {
+const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const {colors} = useTheme();
   const [phoneOTP, setPhoneOTP] = React.useState('');
   const [emailOTP, setEmailOTP] = React.useState('');
   const [phoneVerified, setPhoneVerified] = React.useState(false);
   const [emailVerified, setEmailVerified] = React.useState(false);
   const verificationDone = phoneVerified && emailVerified;
-  const route = useRoute();
 
   return (
     <View style={styles.container}>
@@ -88,7 +87,7 @@ const Otp: React.FC<OtpProps> = ({navigation}) => {
           inactive={!verificationDone}
           onPress={() => {
             if (verificationDone) {
-              if (route.params.path === 'signup') {
+              if (route?.params.path === 'signup') {
                 navigation.replace('Signup'); //coming from signup screen to otp
               } else {
                 navigation.navigate('NewPassword'); // otherwise coming from forgetpassword, continue to new password screen
