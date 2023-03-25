@@ -28,9 +28,11 @@ async function requestUserPermission() {
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
+  await messaging().registerDeviceForRemoteMessages();
+  const token = await messaging().getToken();
   if (enabled) {
     console.log('Authorization status:', authStatus);
+    console.log('token', token);
   }
 }
 
@@ -55,7 +57,7 @@ function App(): JSX.Element {
     <SafeAreaView style={backgroundStyle}>
       <RecoilRoot>
         <StatusBar
-          // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={
             isDarkMode ? PrimaryTheme.colors.background : '#ffffff'
           }
