@@ -37,7 +37,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
           borderBottomColor: colors.primary,
           borderBottomWidth: 1,
           fontSize: 16,
-          fontFamily: 'Montserrat-Light',
+          fontFamily: 'Montserrat-Regular',
           height: 40,
         }}
       />

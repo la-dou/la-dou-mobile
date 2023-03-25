@@ -8,6 +8,7 @@ import Signup from '../screens/Signup';
 import Otp from '../screens/Otp';
 import ForgetPassword from '../screens/ForgetPassword';
 import NewPassword from '../screens/NewPassword';
+import BackButton from '../components/BackButton';
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -24,14 +25,7 @@ const Auth = () => {
   return (
     <AuthStack.Navigator
       screenOptions={{
-        header: () => (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              style={style.header}
-              source={require('../assets/images/back-arrow.png')}
-            />
-          </TouchableOpacity>
-        ),
+        header: () => <BackButton />,
       }}
       initialRouteName="Login">
       <AuthStack.Screen

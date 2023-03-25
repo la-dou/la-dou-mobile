@@ -7,6 +7,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import {authToken as authTokenAtom} from '../atoms';
 import {AuthStackParamList} from '../navigation/AuthStack';
+import {login} from '../api/Auth';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
@@ -22,8 +23,27 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
 
   const handleLogin = () => {
     // handle incorrect input formats
+    try {
+      const rollNumberInt = parseInt(rollNumber);
+      if (isNaN(rollNumberInt)) {
+        throw new Error('Roll Number is not a number');
+      }
+      if (password.length < 8) {
+        throw new Error('Password is too short');
+      }
+    } catch (error) {
+      console.log(error);
+    }
     // handle API call
     // update state
+    login(rollNumber, password)
+      .then(response => {
+        console.log(response);
+        setAuthToken(response.access_token);
+      })
+      .catch(error => {
+        console.log(error);
+      });
     // store token in encrypted storage
     EncryptedStorage.setItem('token', authToken);
   };
@@ -50,7 +70,9 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <AppButton primary>Continue</AppButton>
+        <AppButton primary onPress={handleLogin}>
+          Continue
+        </AppButton>
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
           or
         </HrText>
