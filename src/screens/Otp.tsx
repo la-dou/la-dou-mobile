@@ -1,6 +1,6 @@
 import {StyleSheet, View, Text, Image} from 'react-native';
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
+import {useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {AuthStackParamList} from '../navigation/AuthStack';
@@ -11,13 +11,14 @@ import AppTextInput from '../components/AppTextInput';
 
 type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'>;
 
-const Otp: React.FC<OtpProps> = ({navigation}) => {
+const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const {colors} = useTheme();
   const [phoneOTP, setPhoneOTP] = React.useState('');
   const [emailOTP, setEmailOTP] = React.useState('');
   const [phoneVerified, setPhoneVerified] = React.useState(false);
   const [emailVerified, setEmailVerified] = React.useState(false);
   const verificationDone = phoneVerified && emailVerified;
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -30,7 +31,8 @@ const Otp: React.FC<OtpProps> = ({navigation}) => {
 
         {/* text box for email and number */}
         <Text style={[styles.codeSentText, {color: colors.primary}]}>
-          OTP has been sent to +92-300-2643634 and 24100116@lums.edu.pk
+          OTP has been sent to {route.params.phoneNumber} and{' '}
+          {route.params.rollNumber}@lums.edu.pk
         </Text>
 
         {/* flex box: row for mobile and verify button */}
@@ -83,8 +85,16 @@ const Otp: React.FC<OtpProps> = ({navigation}) => {
         <AppButton
           primary
           inactive={!verificationDone}
-          onPress={() => verificationDone && navigation.replace('Signup')}>
-          Finish
+          onPress={() => {
+            if (verificationDone) {
+              if (route?.params.path === 'signup') {
+                navigation.replace('Signup'); //coming from signup screen to otp
+              } else {
+                navigation.navigate('NewPassword'); // otherwise coming from forgetpassword, continue to new password screen
+              }
+            }
+          }}>
+          {route.params.path === 'signup' ? 'Finish' : 'Continue'}
         </AppButton>
       </View>
     </View>

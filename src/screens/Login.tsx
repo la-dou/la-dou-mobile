@@ -76,7 +76,11 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
           or
         </HrText>
-        <AppButton primary>Forgot Passsword?</AppButton>
+        <AppButton
+          primary
+          onPress={() => navigation.navigate('ForgetPassword')}>
+          Forgot Passsword?
+        </AppButton>
         <AppButton primary onPress={() => navigation.replace('Signup')}>
           Signup
         </AppButton>
