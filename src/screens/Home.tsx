@@ -1,22 +1,13 @@
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import EncryptedStorage from 'react-native-encrypted-storage';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {authToken as authTokenAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
-import { useNavigation } from '@react-navigation/native';
-import { MainStack } from '../navigation/UserDriverStack';
+import {MainStack} from '../navigation/UserDriverStack';
 
 interface userDetailsInterface {
   name: string;
@@ -86,7 +77,6 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
           text="Logout"
           onPress={() => {
             setAuthToken('');
-            // EncryptedStorage.removeItem('token')
           }}
         />
       </View>

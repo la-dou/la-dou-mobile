@@ -1,9 +1,17 @@
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import React from 'react';
-import {useRoute, useTheme} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {AuthStackParamList} from '../navigation/AuthStack';
+import {sendEmailOtp, verifyEmailOtp} from '../api/Otp';
 import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
@@ -15,9 +23,48 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const {colors} = useTheme();
   const [phoneOTP, setPhoneOTP] = React.useState('');
   const [emailOTP, setEmailOTP] = React.useState('');
+  const [phoneSent, setPhoneSent] = React.useState(false);
+  const [emailSent, setEmailSent] = React.useState(false);
+  const [phoneLoading, setPhoneLoading] = React.useState(false);
+  const [emailLoading, setEmailLoading] = React.useState(false);
   const [phoneVerified, setPhoneVerified] = React.useState(false);
   const [emailVerified, setEmailVerified] = React.useState(false);
   const verificationDone = phoneVerified && emailVerified;
+
+  const handleSendEmailOtp = async () => {
+    setEmailLoading(true);
+    try {
+      const res = await sendEmailOtp('24100116');
+      if (res.status === 200) {
+        setEmailSent(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setEmailLoading(false);
+  };
+
+  const handleVerifyEmailOtp = async () => {
+    setEmailLoading(true);
+    try {
+      const res = await verifyEmailOtp('24100116', emailOTP);
+      if (res.status === 200 && res.data) {
+        setEmailVerified(true);
+      }
+      // else if (res.status === 400) {
+      //   Alert.alert(
+      //     'Incorrect OTP',
+      //     'The OTP you entered is incorrect. Please try again.',
+      //   );
+      //   setEmailSent(false);
+      // }
+    } catch (err) {
+      console.log(err);
+      Alert.alert('Error', 'Something went wrong. Please try again.');
+      setEmailSent(false);
+    }
+    setEmailLoading(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -46,14 +93,24 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
             containerStyle={styles.otpInputContainer}
           />
           <View style={styles.buttonCheckMarkContainer}>
-            {phoneVerified ? (
+            {phoneLoading ? (
+              <ActivityIndicator
+                size={24}
+                color={colors.primary}
+                style={styles.checkMark}
+              />
+            ) : phoneVerified ? (
               <Image
                 style={styles.checkMark}
                 source={require('../assets/images/checkMark.png')}
               />
             ) : (
-              <AppButton primary onPress={() => setPhoneVerified(true)}>
-                Verify
+              <AppButton
+                primary
+                onPress={() => {
+                  phoneSent ? setPhoneVerified(true) : null;
+                }}>
+                {phoneSent ? 'Verify' : 'Send'}
               </AppButton>
             )}
           </View>
@@ -70,14 +127,24 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
             containerStyle={styles.otpInputContainer}
           />
           <View style={styles.buttonCheckMarkContainer}>
-            {emailVerified ? (
+            {emailLoading ? (
+              <ActivityIndicator
+                size={24}
+                color={colors.primary}
+                style={styles.checkMark}
+              />
+            ) : emailVerified ? (
               <Image
                 style={styles.checkMark}
                 source={require('../assets/images/checkMark.png')}
               />
             ) : (
-              <AppButton primary onPress={() => setEmailVerified(true)}>
-                Verify
+              <AppButton
+                primary
+                onPress={() =>
+                  emailSent ? handleVerifyEmailOtp() : handleSendEmailOtp()
+                }>
+                {emailSent ? 'Verify' : 'Send'}
               </AppButton>
             )}
           </View>
@@ -142,6 +209,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     marginVertical: 15,
+    resizeMode: 'contain',
   },
 });
 

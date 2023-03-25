@@ -16,7 +16,6 @@ type ForgetPasswordProps = NativeStackScreenProps<
 const ForgetPassword: React.FC<ForgetPasswordProps> = ({navigation}) => {
   const {colors} = useTheme();
   const [rollNumber, setRollNumber] = React.useState('');
-  const [phoneNumber, setPhoneNumber] = React.useState('');
 
   return (
     <View style={styles.container}>
@@ -35,24 +34,15 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = ({navigation}) => {
           keyboardType="numeric"
         />
 
-        <AppTextInput
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          maxLength={11} // 10 digits + 1 country code
-          keyboardType="numeric"
-        />
-
         <AppButton
           primary
           onPress={() =>
             navigation.navigate('Otp', {
               rollNumber: rollNumber,
-              phoneNumber: phoneNumber,
               path: 'ForgetPassword', // forget password to otp gives continue btn
             })
           }>
-          Verify
+          Continue
         </AppButton>
       </View>
     </View>
@@ -67,12 +57,12 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   logoContainer: {
-    flex: 0.8,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   formContainer: {
-    flex: 1.2,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

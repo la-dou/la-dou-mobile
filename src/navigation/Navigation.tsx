@@ -34,10 +34,12 @@ const Navigation = () => {
     if (authToken) {
       EncryptedStorage.setItem('token', authToken);
     } else {
-      EncryptedStorage.removeItem('token');
+      try {
+        EncryptedStorage.removeItem('token');
+      } catch (e) {}
     }
-    console.log(authToken)
-  }, [authToken])
+    console.log(authToken);
+  }, [authToken]);
 
   return (
     <NavigationContainer theme={PrimaryTheme}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 
@@ -13,7 +13,7 @@ import BackButton from '../components/BackButton';
 export type AuthStackParamList = {
   Login: undefined;
   Signup: undefined;
-  Otp: {rollNumber: string; phoneNumber: string; path: string};
+  Otp: {rollNumber: string; phoneNumber?: string; path: string};
   ForgetPassword: undefined;
   NewPassword: undefined;
 };
