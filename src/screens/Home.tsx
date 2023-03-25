@@ -1,12 +1,22 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {useRecoilState} from 'recoil';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import {authToken as authTokenAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
+import { useNavigation } from '@react-navigation/native';
+import { MainStack } from '../navigation/UserDriverStack';
 
 interface userDetailsInterface {
   name: string;
@@ -16,7 +26,9 @@ interface userDetailsInterface {
   email_verified: boolean;
 }
 
-const Home = () => {
+type LoginProps = NativeStackScreenProps<MainStack, 'Home'>;
+
+const Home: React.FC<LoginProps> = ({navigation}) => {
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   const [userDetails, setUserDetails] =
     React.useState<userDetailsInterface | null>(null);
@@ -26,13 +38,21 @@ const Home = () => {
       try {
         const user = await getUser(authToken);
         setUserDetails(user);
-        console.log(userDetails);
+        return user;
       } catch (error) {
         console.log(error);
       }
     };
 
-    retriveUserDetails();
+    retriveUserDetails().then(user => {
+      if (!user.email_verified || !user.phone_verified) {
+        Alert.alert(
+          'Account not verified',
+          "You need to verify your email and password before you can use the app. You'll now be redirected to the OTP page to verify your account.",
+        );
+        // navigation.navigate('Otp');
+      }
+    });
   }, []);
 
   return (
