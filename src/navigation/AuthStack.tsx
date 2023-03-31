@@ -15,7 +15,7 @@ export type AuthStackParamList = {
   Signup: undefined;
   Otp: {rollNumber: Number; path: string, phone_verified?: boolean, email_verified?: boolean};
   ForgetPassword: undefined;
-  NewPassword: undefined;
+  NewPassword: {rollNumber: Number, token: string};
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
