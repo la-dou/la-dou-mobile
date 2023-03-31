@@ -2,22 +2,25 @@ import axios from 'axios';
 
 const API_URL = 'http://10.0.2.2:8000';
 
-export const sendEmailOtp = async (roll_no: string) => {
+export const sendEmailOtp = async (roll_no: Number) => {
   const config = {
-    method: "post",
+    method: 'post',
     url: `${API_URL}/otp/email/generate?roll_no=${roll_no}`,
   };
-  console.log(config)
+  console.log(config);
   const response = await axios(config);
   return response;
-}
+};
 
-export const verifyEmailOtp = async (rollNo: string, otp: string) => {
+export const verifyEmailOtp = async (
+  rollNo: Number,
+  otp: Number,
+) => {
   const config = {
-    method: "post",
+    method: 'post',
     url: `${API_URL}/otp/email/verify`,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     data: {
       roll_no: rollNo,
@@ -26,4 +29,4 @@ export const verifyEmailOtp = async (rollNo: string, otp: string) => {
   };
   const response = await axios(config);
   return response;
-}
+};

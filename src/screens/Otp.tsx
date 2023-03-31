@@ -16,8 +16,9 @@ import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
+import { MainStackParamList } from '../navigation/UserDriverStack';
 
-type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'>;
+type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'> & NativeStackScreenProps<MainStackParamList, 'Otp'>;
 
 const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const {colors} = useTheme();
@@ -29,12 +30,14 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const [emailLoading, setEmailLoading] = React.useState(false);
   const [phoneVerified, setPhoneVerified] = React.useState(false);
   const [emailVerified, setEmailVerified] = React.useState(false);
-  const verificationDone = phoneVerified && emailVerified;
+  // removing the phone_verified check for now. Uncomment the following line to add the check
+  const verificationDone = route.params.email_verified || emailVerified;
+  // && (route.params.phone_verified || phoneVerified);
 
   const handleSendEmailOtp = async () => {
     setEmailLoading(true);
     try {
-      const res = await sendEmailOtp('24100116');
+      const res = await sendEmailOtp(route.params.rollNumber);
       if (res.status === 200) {
         setEmailSent(true);
       }
@@ -47,7 +50,10 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const handleVerifyEmailOtp = async () => {
     setEmailLoading(true);
     try {
-      const res = await verifyEmailOtp('24100116', emailOTP);
+      const res = await verifyEmailOtp(
+        route.params.rollNumber,
+        Number(emailOTP),
+      );
       if (res.status === 200 && res.data) {
         setEmailVerified(true);
       }
@@ -78,84 +84,90 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
 
         {/* text box for email and number */}
         <Text style={[styles.codeSentText, {color: colors.primary}]}>
-          OTP has been sent to {route.params.phoneNumber} and{' '}
-          {route.params.rollNumber}@lums.edu.pk
+          {`OTP will been sent to your registered phone number and \n${route.params.rollNumber}@lums.edu.pk`}
         </Text>
 
         {/* flex box: row for mobile and verify button */}
-        <View style={styles.verificationContainer}>
-          <AppTextInput
-            placeholder="Mobile"
-            value={phoneOTP}
-            onChangeText={setPhoneOTP}
-            maxLength={4}
-            keyboardType="numeric"
-            containerStyle={styles.otpInputContainer}
-          />
-          <View style={styles.buttonCheckMarkContainer}>
-            {phoneLoading ? (
-              <ActivityIndicator
-                size={24}
-                color={colors.primary}
-                style={styles.checkMark}
-              />
-            ) : phoneVerified ? (
-              <Image
-                style={styles.checkMark}
-                source={require('../assets/images/checkMark.png')}
-              />
-            ) : (
-              <AppButton
-                primary
-                onPress={() => {
-                  phoneSent ? setPhoneVerified(true) : null;
-                }}>
-                {phoneSent ? 'Verify' : 'Send'}
-              </AppButton>
-            )}
+        {!route.params.phone_verified && (
+          <View style={styles.verificationContainer}>
+            <AppTextInput
+              placeholder="Mobile"
+              value={phoneOTP}
+              onChangeText={setPhoneOTP}
+              maxLength={4}
+              keyboardType="numeric"
+              containerStyle={styles.otpInputContainer}
+            />
+            <View style={styles.buttonCheckMarkContainer}>
+              {phoneLoading ? (
+                <ActivityIndicator
+                  size={24}
+                  color={colors.primary}
+                  style={styles.checkMark}
+                />
+              ) : phoneVerified ? (
+                <Image
+                  style={styles.checkMark}
+                  source={require('../assets/images/checkMark.png')}
+                />
+              ) : (
+                <AppButton
+                  primary
+                  onPress={() => {
+                    phoneSent ? setPhoneVerified(true) : null;
+                  }}>
+                  {phoneSent ? 'Verify' : 'Send'}
+                </AppButton>
+              )}
+            </View>
           </View>
-        </View>
+        )}
 
         {/* flex box: row for email and verify button */}
-        <View style={styles.verificationContainer}>
-          <AppTextInput
-            placeholder="Email"
-            value={emailOTP}
-            onChangeText={setEmailOTP}
-            maxLength={4}
-            keyboardType="numeric"
-            containerStyle={styles.otpInputContainer}
-          />
-          <View style={styles.buttonCheckMarkContainer}>
-            {emailLoading ? (
-              <ActivityIndicator
-                size={24}
-                color={colors.primary}
-                style={styles.checkMark}
-              />
-            ) : emailVerified ? (
-              <Image
-                style={styles.checkMark}
-                source={require('../assets/images/checkMark.png')}
-              />
-            ) : (
-              <AppButton
-                primary
-                onPress={() =>
-                  emailSent ? handleVerifyEmailOtp() : handleSendEmailOtp()
-                }>
-                {emailSent ? 'Verify' : 'Send'}
-              </AppButton>
-            )}
+        {!route.params.email_verified && (
+          <View style={styles.verificationContainer}>
+            <AppTextInput
+              placeholder="Email"
+              value={emailOTP}
+              onChangeText={setEmailOTP}
+              maxLength={4}
+              keyboardType="numeric"
+              containerStyle={styles.otpInputContainer}
+            />
+            <View style={styles.buttonCheckMarkContainer}>
+              {emailLoading ? (
+                <ActivityIndicator
+                  size={24}
+                  color={colors.primary}
+                  style={styles.checkMark}
+                />
+              ) : emailVerified ? (
+                <Image
+                  style={styles.checkMark}
+                  source={require('../assets/images/checkMark.png')}
+                />
+              ) : (
+                <AppButton
+                  primary
+                  onPress={() =>
+                    emailSent ? handleVerifyEmailOtp() : handleSendEmailOtp()
+                  }>
+                  {emailSent ? 'Verify' : 'Send'}
+                </AppButton>
+              )}
+            </View>
           </View>
-        </View>
+        )}
+
         <AppButton
           primary
           inactive={!verificationDone}
           onPress={() => {
             if (verificationDone) {
-              if (route?.params.path === 'signup') {
-                navigation.replace('Signup'); //coming from signup screen to otp
+              if (route.params.path === 'signup') {
+                navigation.replace('Login'); //coming from signup screen to otp
+              } else if (route.params.path === 'Home') {
+                navigation.replace('Home'); // coming from home screen to otp
               } else {
                 navigation.navigate('NewPassword'); // otherwise coming from forgetpassword, continue to new password screen
               }

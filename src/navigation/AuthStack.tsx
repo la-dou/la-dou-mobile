@@ -13,7 +13,7 @@ import BackButton from '../components/BackButton';
 export type AuthStackParamList = {
   Login: undefined;
   Signup: undefined;
-  Otp: {rollNumber: string; phoneNumber?: string; path: string};
+  Otp: {rollNumber: Number; path: string, phone_verified?: boolean, email_verified?: boolean};
   ForgetPassword: undefined;
   NewPassword: undefined;
 };

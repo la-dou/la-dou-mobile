@@ -6,13 +6,14 @@ import {useNavigation} from '@react-navigation/native';
 import Home from '../screens/Home';
 import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
+import Otp from '../screens/Otp';
 
-export type MainStack = {
+export type MainStackParamList = {
   Home: undefined;
-  Otp: undefined;
+  Otp: {rollNumber: Number; path: string, phone_verified?: boolean, email_verified?: boolean};
 };
 
-const MainStack = createNativeStackNavigator<MainStack>();
+const MainStack = createNativeStackNavigator<MainStackParamList>();
 
 const Auth = () => {
   const navigation = useNavigation();
@@ -32,6 +33,15 @@ const Auth = () => {
         name="Home"
         component={Home}
         options={{header: () => <Logo size={12} noBackground />}}
+      />
+      <MainStack.Screen
+        name="Otp"
+        component={Otp}
+        options={{
+          header: () => (
+              <BackButton />
+          ),
+        }}
       />
       
     </MainStack.Navigator>

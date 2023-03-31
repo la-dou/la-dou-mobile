@@ -7,7 +7,7 @@ import {authToken as authTokenAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
-import {MainStack} from '../navigation/UserDriverStack';
+import {MainStackParamList} from '../navigation/UserDriverStack';
 
 interface userDetailsInterface {
   name: string;
@@ -17,7 +17,7 @@ interface userDetailsInterface {
   email_verified: boolean;
 }
 
-type LoginProps = NativeStackScreenProps<MainStack, 'Home'>;
+type LoginProps = NativeStackScreenProps<MainStackParamList, 'Home'>;
 
 const Home: React.FC<LoginProps> = ({navigation}) => {
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
@@ -36,12 +36,27 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
     };
 
     retriveUserDetails().then(user => {
-      if (!user.email_verified || !user.phone_verified) {
+      // removing the phone_verified check for now
+      // uncomment the following line to add the check
+      // if (!user.email_verified || !user.phone_verified) {
+      if (!user.email_verified) {
         Alert.alert(
           'Account not verified',
-          "You need to verify your email and password before you can use the app. You'll now be redirected to the OTP page to verify your account.",
+          "You need to verify your email and phone number before you can use the app. You'll now be redirected to the OTP page to verify your account.",
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation.navigate('Otp', {
+                  rollNumber: user.roll_no,
+                  path: 'Home',
+                  phone_verified: user.phone_verified,
+                  email_verified: user.email_verified,
+                });
+              },
+            },
+          ],
         );
-        // navigation.navigate('Otp');
       }
     });
   }, []);
