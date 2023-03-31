@@ -42,3 +42,20 @@ export const register = async (
   );
   return response.data;
 };
+
+export const resetPassword = async (rollNo: Number, password: string, token: string) => {
+  const config = {
+    method: 'post',
+    url: `${API_URL}/reset-password`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      roll_no: rollNo,
+      password,
+      verification_token: token,
+    },
+  }
+  const response = await axios(config);
+  return response.data;
+}

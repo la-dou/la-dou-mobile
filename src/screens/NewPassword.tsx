@@ -7,17 +7,61 @@ import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
+import {resetPassword} from '../api/Auth';
 
 type NewPasswordProps = NativeStackScreenProps<
   AuthStackParamList,
   'NewPassword'
 >;
 
-const NewPassword: React.FC<NewPasswordProps> = ({navigation}) => {
+const NewPassword: React.FC<NewPasswordProps> = ({navigation, route}) => {
   const {colors} = useTheme();
   const [newPassword, setNewPassword] = React.useState('');
   const [confirmPassword, setconfirmPassword] = React.useState('');
 
+  const handleSubmit = async () => {
+    if (newPassword === confirmPassword) {
+      if (newPassword.length < 8) {
+        Alert.alert('Password must be at least 8 characters');
+        return;
+      }
+      //add validation for empty fields, password length, etc
+      try {
+        const res = await resetPassword(
+          route.params.rollNumber,
+          newPassword,
+          route.params.token,
+        );
+        console.log(res);
+        Alert.alert(
+          'Password Updated!',
+          res
+            ? res.detail
+            : 'Your password has been successfully updated. Please proceed to login!',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.navigate('Login'),
+            },
+          ],
+        );
+      } catch (err) {
+        console.log(err);
+        Alert.alert(
+          'Error!',
+          'There was an error updating your password. Please try again!',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.navigate('Login'),
+            },
+          ],
+        );
+      }
+    } else {
+      Alert.alert('Password does not match');
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -41,17 +85,7 @@ const NewPassword: React.FC<NewPasswordProps> = ({navigation}) => {
           secureTextEntry
         />
 
-        <AppButton
-          primary
-          onPress={() => {
-            if (newPassword === confirmPassword) {
-              //add validation for empty fields, password length, etc
-              //navigation.replace('Login'); //TODO: replace it with home screen
-              Alert.alert('Password changed successfully');
-            } else {
-              Alert.alert('Password does not match');
-            }
-          }}>
+        <AppButton primary onPress={handleSubmit}>
           Finish
         </AppButton>
       </View>

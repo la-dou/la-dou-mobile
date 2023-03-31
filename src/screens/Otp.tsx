@@ -16,9 +16,10 @@ import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
-import { MainStackParamList } from '../navigation/UserDriverStack';
+import {MainStackParamList} from '../navigation/UserDriverStack';
 
-type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'> & NativeStackScreenProps<MainStackParamList, 'Otp'>;
+type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'> &
+  NativeStackScreenProps<MainStackParamList, 'Otp'>;
 
 const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const {colors} = useTheme();
@@ -30,6 +31,7 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   const [emailLoading, setEmailLoading] = React.useState(false);
   const [phoneVerified, setPhoneVerified] = React.useState(false);
   const [emailVerified, setEmailVerified] = React.useState(false);
+  const [verificationToken, setVerificationToken] = React.useState('');
   // removing the phone_verified check for now. Uncomment the following line to add the check
   const verificationDone = route.params.email_verified || emailVerified;
   // && (route.params.phone_verified || phoneVerified);
@@ -56,6 +58,7 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
       );
       if (res.status === 200 && res.data) {
         setEmailVerified(true);
+        setVerificationToken(res.data.token);
       }
       // else if (res.status === 400) {
       //   Alert.alert(
@@ -88,7 +91,7 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
         </Text>
 
         {/* flex box: row for mobile and verify button */}
-        {!route.params.phone_verified && (
+        {!route.params.phone_verified && route.params.path !== 'ForgetPassword' && (
           <View style={styles.verificationContainer}>
             <AppTextInput
               placeholder="Mobile"
@@ -169,7 +172,10 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
               } else if (route.params.path === 'Home') {
                 navigation.replace('Home'); // coming from home screen to otp
               } else {
-                navigation.navigate('NewPassword'); // otherwise coming from forgetpassword, continue to new password screen
+                navigation.navigate('NewPassword', {
+                  rollNumber: route.params.rollNumber,
+                  token: verificationToken,
+                }); // otherwise coming from forgetpassword, continue to new password screen
               }
             }
           }}>

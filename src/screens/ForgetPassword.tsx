@@ -38,7 +38,7 @@ const ForgetPassword: React.FC<ForgetPasswordProps> = ({navigation}) => {
           primary
           onPress={() =>
             navigation.navigate('Otp', {
-              rollNumber: rollNumber,
+              rollNumber: Number(rollNumber),
               path: 'ForgetPassword', // forget password to otp gives continue btn
             })
           }>
