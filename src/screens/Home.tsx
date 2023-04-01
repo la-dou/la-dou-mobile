@@ -8,6 +8,12 @@ import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
 import {MainStackParamList} from '../navigation/UserDriverStack';
+import {
+  requestPushNotifPermission,
+  registerForPushNotifications,
+  unregisterForPushNotifications,
+} from '../utils/notifications';
+import {addDeviceToken, removeDeviceToken} from '../api/Fcm';
 
 interface userDetailsInterface {
   name: string;
@@ -59,7 +65,30 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
         );
       }
     });
+
+    // set up push notifications
+    requestPushNotifPermission().then(async () => {
+      try {
+        const FCMToken = await registerForPushNotifications();
+        console.log(FCMToken);
+        await addDeviceToken(authToken, FCMToken);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }, []);
+
+  const handleLogout = async () => {
+    // remove FCM token
+    try {
+      const FCMToken = await unregisterForPushNotifications();
+      await removeDeviceToken(authToken, FCMToken);
+    } catch (error) {
+      console.log(error);
+    }
+    // clear auth token
+    setAuthToken('');
+  };
 
   return (
     <View style={styles.continaer}>
@@ -90,9 +119,7 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
         <MenuButton
           iconSource={require('../assets/images/logout-icon.png')}
           text="Logout"
-          onPress={() => {
-            setAuthToken('');
-          }}
+          onPress={handleLogout}
         />
       </View>
     </View>
