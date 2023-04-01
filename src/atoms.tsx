@@ -3,7 +3,7 @@ import {atom} from 'recoil';
 export const authToken = atom({
   key: 'authToken',
   default: '',
-})
+});
 
 export interface User {
   id: number;
@@ -18,4 +18,10 @@ export interface User {
 export const user = atom({
   key: 'user',
   default: {} as User,
-})
+});
+
+// Create a variable for state of role ("driver" or "customer")
+export const role = atom({
+  key: 'role',
+  default: 'customer',
+});

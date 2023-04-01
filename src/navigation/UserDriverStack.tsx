@@ -10,7 +10,12 @@ import Otp from '../screens/Otp';
 
 export type MainStackParamList = {
   Home: undefined;
-  Otp: {rollNumber: Number; path: string, phone_verified?: boolean, email_verified?: boolean};
+  Otp: {
+    rollNumber: Number;
+    path: string;
+    phone_verified?: boolean;
+    email_verified?: boolean;
+  };
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -38,12 +43,9 @@ const Auth = () => {
         name="Otp"
         component={Otp}
         options={{
-          header: () => (
-              <BackButton />
-          ),
+          header: () => <BackButton />,
         }}
       />
-      
     </MainStack.Navigator>
   );
 };
