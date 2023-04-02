@@ -8,6 +8,7 @@ import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 import Otp from '../screens/Otp';
 import Profile from '../screens/Profile';
+import PostJobs from '../screens/PostJobs'
 
 export type MainStackParamList = {
   Home: undefined;
@@ -49,6 +50,7 @@ const MainNav = () => {
         }}
       />
       <MainStack.Screen name="Profile" component={Profile} />
+      {/* <MainStack.Screen name="Profile" component={PostJobs} /> */}
     </MainStack.Navigator>
   );
 };
