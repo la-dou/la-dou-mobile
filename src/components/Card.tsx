@@ -5,8 +5,12 @@ import RatingButton from './RatingButton';
 
 export type CardProps = {
   onSubmitHandler: () => void;
-  children: number; // 0 for rating, 1 for driver bid, 2 for customer bid
+  children: number; // 0 for rating, 1 for driver side bid, 2 for customer side bid
+  data?: any; //data may have to and from for driver side bid, or  may have name and bid for customer side bid, or may have nothing for rating
 };
+
+// data :{name, bid} for customer side bid
+// data: {from, to} for driver side bid
 const Card = (props: CardProps) => {
   const {colors} = PrimaryTheme;
   const [rating, setRating] = React.useState(0);
@@ -56,7 +60,7 @@ const Card = (props: CardProps) => {
                   color: colors.primary,
                   lineHeight: 20,
                 }}>
-                In Gate
+                {props.data.from}
               </Text>
 
               <Image
@@ -73,7 +77,7 @@ const Card = (props: CardProps) => {
                   color: colors.primary,
                   lineHeight: 20,
                 }}>
-                Out Gate
+                {props.data.to}
               </Text>
             </View>
             <View
@@ -135,7 +139,7 @@ const Card = (props: CardProps) => {
                 color: colors.primary,
                 lineHeight: 24,
               }}>
-              Soomro
+              {props.data.name}
             </Text>
             <Text
               style={{
@@ -146,7 +150,7 @@ const Card = (props: CardProps) => {
                 color: colors.primary,
                 lineHeight: 24,
               }}>
-              Rs. 200
+              {props.data.bid}
             </Text>
           </View>
         ) : null}
