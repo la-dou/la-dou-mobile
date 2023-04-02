@@ -70,6 +70,25 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
           ],
         );
       }
+      if (user.driver_disabled && user.customer_disabled) {
+        Alert.alert(
+          'Account disabled',
+          'Your account has been disabled. Please contact the admin for more details.',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                handleLogout();
+              },
+            },
+          ],
+        );
+      }
+      if (user.customer_disabled) {
+        setRole('driver');
+      } else if (user.driver_disabled) {
+        setRole('customer');
+      }
     });
 
     // set up push notifications
@@ -111,13 +130,27 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
               ? require('../assets/images/cart-icon.png')
               : require('../assets/images/bids-icon.png')
           }
-          text="Place Order"
+          text={role === 'customer' ? 'Place Orders' : 'Place Bids'}
         />
         <MenuButton
           primary
           iconSource={require('../assets/images/switch-icon.png')}
           text={role === 'customer' ? 'Switch to Driver' : 'Switch to Customer'}
           onPress={() => {
+            if (role === 'customer' && userDetails?.driver_disabled) {
+              Alert.alert(
+                'Account disabled',
+                'Your driver account has been disabled. Please contact the admin for more details.',
+              );
+              return;
+            }
+            if (role === 'driver' && userDetails?.customer_disabled) {
+              Alert.alert(
+                'Account disabled',
+                'Your customer account has been disabled. Please contact the admin for more details.',
+              );
+              return;
+            }
             setRole(role === 'customer' ? 'driver' : 'customer');
           }}
         />
