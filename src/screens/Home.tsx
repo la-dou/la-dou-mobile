@@ -39,7 +39,7 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
   React.useEffect(() => {
     const retriveUserDetails = async () => {
       try {
-        const user = await getUser();
+        const user = await getUser(authToken);
         setUserDetails(user);
         return user;
       } catch (error) {
