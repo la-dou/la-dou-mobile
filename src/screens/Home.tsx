@@ -3,8 +3,7 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {authToken as authTokenAtom} from '../atoms';
-import {role as roleAtom} from '../atoms';
+import {authToken as authTokenAtom, role as roleAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
