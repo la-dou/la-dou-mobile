@@ -24,3 +24,10 @@ export const userDetails = atom({
     email_verified: false,
   } as userDetails,
 });
+
+// Create a variable for state of role ("driver" or "customer")
+export const role = atom({
+  key: 'role',
+  default: 'customer',
+});
+
