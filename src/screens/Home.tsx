@@ -6,6 +6,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   authToken as authTokenAtom,
   userDetails as userDetailsAtom,
+  role as roleAtom,
 } from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
@@ -23,6 +24,7 @@ type LoginProps = NativeStackScreenProps<MainStackParamList, 'Home'>;
 const Home: React.FC<LoginProps> = ({navigation}) => {
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
+  const [role, setRole] = useRecoilState(roleAtom);
   const greetings = [
     'Hello',
     'Hi',
@@ -104,13 +106,20 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
       <View style={styles.menuContainer}>
         <MenuButton
           primary
-          iconSource={require('../assets/images/cart-icon.png')}
+          iconSource={
+            role === 'customer'
+              ? require('../assets/images/cart-icon.png')
+              : require('../assets/images/bids-icon.png')
+          }
           text="Place Order"
         />
         <MenuButton
           primary
           iconSource={require('../assets/images/switch-icon.png')}
-          text="Switch to Driver"
+          text={role === 'customer' ? 'Switch to Driver' : 'Switch to Customer'}
+          onPress={() => {
+            setRole(role === 'customer' ? 'driver' : 'customer');
+          }}
         />
         <MenuButton
           iconSource={require('../assets/images/history-icon.png')}
