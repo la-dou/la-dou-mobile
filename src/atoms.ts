@@ -11,6 +11,7 @@ export interface userDetails {
   phone_number: string;
   phone_verified: boolean;
   email_verified: boolean;
+  role?: string;
 }
 
 export const userDetails = atom({

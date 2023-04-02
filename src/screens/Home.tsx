@@ -10,7 +10,7 @@ import {
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
-import {MainStackParamList} from '../navigation/UserDriverStack';
+import {MainStackParamList} from '../navigation/MainStack';
 import {
   requestPushNotifPermission,
   registerForPushNotifications,

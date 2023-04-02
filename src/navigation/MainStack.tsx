@@ -22,7 +22,7 @@ export type MainStackParamList = {
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
 
-const Auth = () => {
+const MainNav = () => {
   const navigation = useNavigation();
   return (
     <MainStack.Navigator
@@ -53,4 +53,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default MainNav;

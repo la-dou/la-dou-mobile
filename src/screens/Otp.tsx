@@ -16,7 +16,7 @@ import Logo from '../components/Logo';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
-import {MainStackParamList} from '../navigation/UserDriverStack';
+import {MainStackParamList} from '../navigation/MainStack';
 
 type OtpProps = NativeStackScreenProps<AuthStackParamList, 'Otp'> &
   NativeStackScreenProps<MainStackParamList, 'Otp'>;

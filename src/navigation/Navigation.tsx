@@ -8,7 +8,7 @@ import {authToken as authTokenAtom} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import SplashScreen from '../screens/SplashScreen';
 import Auth from './AuthStack';
-import UserDriverStack from './UserDriverStack';
+import MainNav from './MainStack';
 
 const Navigation = () => {
   const [initialLoading, setInitialLoading] = React.useState<boolean>(true);
@@ -46,7 +46,7 @@ const Navigation = () => {
       {initialLoading ? (
         <SplashScreen />
       ) : authToken ? (
-        <UserDriverStack />
+        <MainNav />
       ) : (
         <Auth />
       )}
