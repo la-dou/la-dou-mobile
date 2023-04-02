@@ -7,15 +7,16 @@ import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
 import {userDetails as userDetailsAtom} from '../atoms';
 import {updatePhone, updatePassword} from '../api/User';
+import { postJob } from '../api/PostJob';
 
 const PostJobs = () => {
   const {colors} = useTheme();
-  const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
-  const [phoneNumber, setPhoneNumber] = React.useState(
-    userDetails.phone_number,
-  );
-  const [oldPassword, setOldPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
+  // const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
+  // const [phoneNumber, setPhoneNumber] = React.useState(
+  //   userDetails.phone_number,
+  // );
+  // const [oldPassword, setOldPassword] = React.useState('');
+  // const [newPassword, setNewPassword] = React.useState('');
 
   const [pickup, setPickup] = React.useState('');
   const [dropoff, setDropoff] = React.useState('');
@@ -94,6 +95,20 @@ const PostJobs = () => {
     // }
 
     console.log('Post Order Pressed');
+    return;
+    
+    try 
+    {
+      const res = await postJob(pickup, dropoff, deliveryPrice, cashToBePaid, deliveryNote);
+      console.log(res);
+      Alert.alert('Order posted successfully!');
+    } 
+    catch (error) 
+    {
+      console.log(error);
+      Alert.alert('Error posting order!');
+    }
+
   };
 
   return (
