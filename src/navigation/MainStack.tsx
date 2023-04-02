@@ -8,6 +8,7 @@ import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 import Otp from '../screens/Otp';
 import Profile from '../screens/Profile';
+import OrderHistory from '../screens/OrderHistory';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -18,6 +19,7 @@ export type MainStackParamList = {
     email_verified?: boolean;
   };
   Profile: undefined;
+  OrderHistory: undefined;
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -49,6 +51,7 @@ const MainNav = () => {
         }}
       />
       <MainStack.Screen name="Profile" component={Profile} />
+      <MainStack.Screen name="OrderHistory" component={OrderHistory} />
     </MainStack.Navigator>
   );
 };
