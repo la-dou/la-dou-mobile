@@ -3,19 +3,23 @@ import {atom} from 'recoil';
 export const authToken = atom({
   key: 'authToken',
   default: '',
-})
+});
 
-export interface User {
-  id: number;
+export interface userDetails {
   name: string;
-  email: string;
-  gender: string;
-  phoneNo: number;
-  rollNo: number;
-  password: string;
+  roll_no: Number;
+  phone_number: string;
+  phone_verified: boolean;
+  email_verified: boolean;
 }
 
-export const user = atom({
-  key: 'user',
-  default: {} as User,
-})
+export const userDetails = atom({
+  key: 'userDetails',
+  default: {
+    name: '',
+    roll_no: 0,
+    phone_number: '',
+    phone_verified: false,
+    email_verified: false,
+  } as userDetails,
+});

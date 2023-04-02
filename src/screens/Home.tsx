@@ -3,7 +3,10 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {authToken as authTokenAtom} from '../atoms';
+import {
+  authToken as authTokenAtom,
+  userDetails as userDetailsAtom,
+} from '../atoms';
 import PrimaryTheme from '../theme/Primary';
 import MenuButton from '../components/MenuButton';
 import {getUser} from '../api/User';
@@ -15,25 +18,26 @@ import {
 } from '../utils/notifications';
 import {addDeviceToken, removeDeviceToken} from '../api/Fcm';
 
-interface userDetailsInterface {
-  name: string;
-  roll_no: string;
-  phone_number: string;
-  phone_verified: boolean;
-  email_verified: boolean;
-}
-
 type LoginProps = NativeStackScreenProps<MainStackParamList, 'Home'>;
 
 const Home: React.FC<LoginProps> = ({navigation}) => {
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
-  const [userDetails, setUserDetails] =
-    React.useState<userDetailsInterface | null>(null);
+  const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
+  const greetings = [
+    'Hello',
+    'Hi',
+    'Hey',
+    'Welcome',
+    'Hi there',
+    'Hey there',
+    'Howdy',
+  ];
+  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   React.useEffect(() => {
     const retriveUserDetails = async () => {
       try {
-        const user = await getUser(authToken);
+        const user = await getUser();
         setUserDetails(user);
         return user;
       } catch (error) {
@@ -94,7 +98,7 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
     <View style={styles.continaer}>
       <View style={styles.greetingContainer}>
         <Text style={styles.greeting}>
-          Hi there,{`\n${userDetails?.name.split(' ')[0]}`}
+          {greeting},{`\n${userDetails?.name.split(' ')[0]}`}
         </Text>
       </View>
       <View style={styles.menuContainer}>
@@ -115,6 +119,9 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
         <MenuButton
           iconSource={require('../assets/images/profile-icon.png')}
           text="Profile"
+          onPress={() => {
+            navigation.navigate('Profile');
+          }}
         />
         <MenuButton
           iconSource={require('../assets/images/logout-icon.png')}

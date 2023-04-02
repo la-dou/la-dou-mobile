@@ -7,10 +7,17 @@ import Home from '../screens/Home';
 import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 import Otp from '../screens/Otp';
+import Profile from '../screens/Profile';
 
 export type MainStackParamList = {
   Home: undefined;
-  Otp: {rollNumber: Number; path: string, phone_verified?: boolean, email_verified?: boolean};
+  Otp: {
+    rollNumber: Number;
+    path: string;
+    phone_verified?: boolean;
+    email_verified?: boolean;
+  };
+  Profile: undefined;
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -38,12 +45,10 @@ const Auth = () => {
         name="Otp"
         component={Otp}
         options={{
-          header: () => (
-              <BackButton />
-          ),
+          header: () => <BackButton />,
         }}
       />
-      
+      <MainStack.Screen name="Profile" component={Profile} />
     </MainStack.Navigator>
   );
 };
