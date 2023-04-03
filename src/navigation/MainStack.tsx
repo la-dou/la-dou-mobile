@@ -49,8 +49,8 @@ const MainNav = () => {
           header: () => <BackButton />,
         }}
       />
-      {/* <MainStack.Screen name="Profile" component={Profile} /> */}
-      <MainStack.Screen name="Profile" component={PostJobs} />
+      <MainStack.Screen name="Profile" component={Profile} />
+      {/* <MainStack.Screen name="Profile" component={PostJobs} /> */}
     </MainStack.Navigator>
   );
 };

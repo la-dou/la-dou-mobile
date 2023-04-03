@@ -7,17 +7,18 @@ export const postJob = async (pickup: string, dropoff: string, deliveryPrice: st
     const token = await EncryptedStorage.getItem('token');
     const config = {
         method: "post",
-        url: `${API_URL}/post-job`,
+        url: `${API_URL}/customer/order/create`,
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
         },
         data: {
-            from: pickup,
-            to: dropoff,
-            delivery_price: deliveryPrice,
-            cash_to_collect: cashToCollect,
-            delivery_notes: deliveryNotes,
+            deliver_to: dropoff,
+            deliver_from: pickup,
+            notes: deliveryNotes,
+            delivery_price: Number(deliveryPrice),
+            order_amount: Number(cashToCollect),
+            placed_at: new Date(),
         },
     };
     const response = await axios(config);
