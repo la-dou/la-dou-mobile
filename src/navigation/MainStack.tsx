@@ -19,7 +19,7 @@ export type MainStackParamList = {
     email_verified?: boolean;
   };
   Profile: undefined;
-  PostJobs: undefined;
+  PlaceOrder: undefined;
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
