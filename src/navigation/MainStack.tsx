@@ -8,6 +8,7 @@ import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 import Otp from '../screens/Otp';
 import Profile from '../screens/Profile';
+import Rating from '../screens/Rating';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -18,6 +19,9 @@ export type MainStackParamList = {
     email_verified?: boolean;
   };
   Profile: undefined;
+  Rating: {
+    driver_roll_number: Number;
+  };
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -49,6 +53,8 @@ const MainNav = () => {
         }}
       />
       <MainStack.Screen name="Profile" component={Profile} />
+      <MainStack.Screen name="Rating" component={Rating} />
+      {/* navigation.navigate('Rating', {driver_roll_number: 24100043}); */}
     </MainStack.Navigator>
   );
 };

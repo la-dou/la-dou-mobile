@@ -1,10 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Text, View, TouchableOpacity, Image, TextInput} from 'react-native';
 import React from 'react';
 import PrimaryTheme from '../theme/Primary';
 import RatingButton from './RatingButton';
 
 export type CardProps = {
-  onSubmitHandler: () => void;
+  onSubmitHandler: (arg: any) => void;
   children: number; // 0 for rating, 1 for driver side bid, 2 for customer side bid
   data?: any; //data may have to and from for driver side bid, or  may have name and bid for customer side bid, or may have nothing for rating
 };
@@ -23,7 +24,7 @@ const Card = (props: CardProps) => {
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#CB4B47',
-        width: '94%',
+        width: '80%',
         height: 100,
         padding: 0,
         flexDirection: 'row',
@@ -167,7 +168,9 @@ const Card = (props: CardProps) => {
 
           height: '100%',
         }}
-        onPress={props.onSubmitHandler}>
+        onPress={() => {
+          props.onSubmitHandler(rating);
+        }}>
         <Image
           source={require('../assets/images/logo-check.png')}
           style={{
