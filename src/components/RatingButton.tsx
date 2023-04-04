@@ -38,8 +38,8 @@ const RatingButton: React.FC<RatingButtonProps> = (
     <View
       style={{
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        width: '70%',
+        justifyContent: 'space-between',
+        width: '80%',
       }}>
       {starRatingOptions.map(option => (
         <TouchableWithoutFeedback

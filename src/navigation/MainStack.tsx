@@ -8,18 +8,27 @@ import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 import Otp from '../screens/Otp';
 import Profile from '../screens/Profile';
+import Rating from '../screens/Rating';
 import PlaceOrder from '../screens/PlaceOrder'
 
 export type MainStackParamList = {
   Home: undefined;
+  
   Otp: {
     rollNumber: Number;
     path: string;
     phone_verified?: boolean;
     email_verified?: boolean;
   };
+  
   Profile: undefined;
+  
+  Rating: {
+    driver_roll_number: Number;
+  };
+  
   PlaceOrder: undefined;
+
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -51,6 +60,11 @@ const MainNav = () => {
         }}
       />
       <MainStack.Screen name="Profile" component={Profile} />
+      
+      <MainStack.Screen name="Rating" component={Rating} />
+      
+      {/* navigation.navigate('Rating', {driver_roll_number: 24100043}); */}
+      
       <MainStack.Screen name="PlaceOrder" component={PlaceOrder} />
     </MainStack.Navigator>
   );
