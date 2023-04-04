@@ -4,9 +4,9 @@ import {useTheme} from '@react-navigation/native';
 import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
-import { postJob } from '../api/PostJob';
+import {postJob} from '../api/Jobs';
 
-const PostJobs = () => {
+const PlaceOrder = () => {
   const {colors} = useTheme();
   const [pickup, setPickup] = React.useState('');
   const [dropoff, setDropoff] = React.useState('');
@@ -16,58 +16,53 @@ const PostJobs = () => {
 
   const handleSubmit = async () => {
     //add validation for empty fields
-    if (!pickup)
-    {
+    if (!pickup) {
       Alert.alert('Please enter your pickup location');
       return;
     }
-    if (!dropoff)
-    {
+    if (!dropoff) {
       Alert.alert('Please enter your dropoff location');
       return;
     }
-    if (!deliveryPrice)
-    {
+    if (!deliveryPrice) {
       Alert.alert('Please enter your delivery price');
       return;
     }
-    if (!cashToBePaid)
-    {
+    if (!cashToBePaid) {
       Alert.alert('Please enter your cash to be paid');
       return;
     }
 
     // add validation for delivery price and cash to be paid. convert to number and check if it is a number
-    if (isNaN(Number(deliveryPrice)) || Number(deliveryPrice) < 0)
-    {
+    if (isNaN(Number(deliveryPrice)) || Number(deliveryPrice) < 0) {
       Alert.alert('Please enter a valid delivery price');
       return;
     }
 
-    if (isNaN(Number(cashToBePaid)) || Number(cashToBePaid) < 0)
-    {
+    if (isNaN(Number(cashToBePaid)) || Number(cashToBePaid) < 0) {
       Alert.alert('Please enter a valid amount to pay.');
       return;
     }
 
-    if (Number(cashToBePaid) < Number(deliveryPrice))
-    {
+    if (Number(cashToBePaid) < Number(deliveryPrice)) {
       Alert.alert('Cash to be paid cannot be less than delivery price');
       return;
     }
 
-    try 
-    {
-      const res = await postJob(pickup, dropoff, deliveryPrice, cashToBePaid, deliveryNote);
+    try {
+      const res = await postJob(
+        pickup,
+        dropoff,
+        deliveryPrice,
+        cashToBePaid,
+        deliveryNote,
+      );
       console.log(res);
       Alert.alert('Order posted successfully!');
-    } 
-    catch (error) 
-    {
+    } catch (error) {
       console.log(error);
       Alert.alert('Error posting order!');
     }
-
   };
 
   return (
@@ -113,12 +108,12 @@ const PostJobs = () => {
   );
 };
 
-export default PostJobs;
+export default PlaceOrder;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50,
+    padding: 30,
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 60,

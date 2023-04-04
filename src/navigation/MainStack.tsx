@@ -8,7 +8,7 @@ import BackButton from '../components/BackButton';
 import Logo from '../components/Logo';
 import Otp from '../screens/Otp';
 import Profile from '../screens/Profile';
-import PostJobs from '../screens/PostJobs'
+import PlaceOrder from '../screens/PlaceOrder'
 
 export type MainStackParamList = {
   Home: undefined;
@@ -19,6 +19,7 @@ export type MainStackParamList = {
     email_verified?: boolean;
   };
   Profile: undefined;
+  PostJobs: undefined;
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -50,7 +51,7 @@ const MainNav = () => {
         }}
       />
       <MainStack.Screen name="Profile" component={Profile} />
-      {/* <MainStack.Screen name="Profile" component={PostJobs} /> */}
+      <MainStack.Screen name="PlaceOrder" component={PlaceOrder} />
     </MainStack.Navigator>
   );
 };
