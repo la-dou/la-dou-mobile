@@ -12,7 +12,7 @@ import PrimaryTheme from '../theme/Primary';
 import BackButton from '../components/BackButton';
 import TextBubble from '../components/TextBubble';
 import {useRecoilState} from 'recoil';
-import {userDetails as userDetailsAtom} from '../atoms';
+import {authToken as authTokenATom} from '../atoms';
 
 type messages = {
   type: 'sent' | 'received';
@@ -20,19 +20,10 @@ type messages = {
 };
 
 const Chat = () => {
-  const [messages, setMessages] = React.useState<messages[]>([
-    {
-      type: 'received',
-      text: 'Hello',
-    },
-    {
-      type: 'sent',
-      text: 'Hello',
-    },
-  ]);
+  const [messages, setMessages] = React.useState<messages[]>([]);
   const [message, setMessage] = React.useState('');
   const [webSocket, setWebSocket] = React.useState<WebSocket | null>(null);
-  const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
+  const [authToken, setUserDetails] = useRecoilState(authTokenATom);
 
   const handleSendMessage = () => {
     if (message) {
@@ -43,8 +34,10 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    const toSendTo = userDetails.roll_no === 24100225 ? 24100116 : 24100225;
-    const ws = new WebSocket(`ws://10.0.2.2:8000/chat/${userDetails.roll_no}/${toSendTo}`);
+    const toSendTo = 24100116;
+    const ws = new WebSocket(
+      `ws://10.0.2.2:8000/chat/${authToken}/${toSendTo}`,
+    );
     setWebSocket(ws);
 
     ws.onopen = () => {
@@ -64,7 +57,7 @@ const Chat = () => {
       console.log(e.code, e.reason);
     };
 
-    // close the connection
+    // close the connection when the page is closed
     return () => ws.close();
   }, []);
 
