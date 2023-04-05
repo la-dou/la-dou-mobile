@@ -7,10 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import PrimaryTheme from '../theme/Primary';
 import BackButton from '../components/BackButton';
 import TextBubble from '../components/TextBubble';
+import {useRecoilState} from 'recoil';
+import {userDetails as userDetailsAtom} from '../atoms';
 
 type messages = {
   type: 'sent' | 'received';
@@ -29,13 +31,42 @@ const Chat = () => {
     },
   ]);
   const [message, setMessage] = React.useState('');
+  const [webSocket, setWebSocket] = React.useState<WebSocket | null>(null);
+  const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
 
   const handleSendMessage = () => {
     if (message) {
-      setMessages([...messages, {type: 'sent', text: message}]);
+      setMessages(messages => [...messages, {type: 'sent', text: message}]);
       setMessage('');
+      webSocket?.send(message);
     }
-  }
+  };
+
+  useEffect(() => {
+    const toSendTo = userDetails.roll_no === 24100225 ? 24100116 : 24100225;
+    const ws = new WebSocket(`ws://10.0.2.2:8000/chat/${userDetails.roll_no}/${toSendTo}`);
+    setWebSocket(ws);
+
+    ws.onopen = () => {
+      console.log('connected');
+    };
+
+    ws.onmessage = e => {
+      console.log('received message', e.data);
+      setMessages(messages => [...messages, {type: 'received', text: e.data}]);
+    };
+
+    ws.onerror = e => {
+      console.log(e.message);
+    };
+
+    ws.onclose = e => {
+      console.log(e.code, e.reason);
+    };
+
+    // close the connection
+    return () => ws.close();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -59,7 +90,9 @@ const Chat = () => {
           value={message}
           onChangeText={setMessage}
         />
-        <TouchableOpacity style={styles.sendMessageButton} onPress={handleSendMessage}>
+        <TouchableOpacity
+          style={styles.sendMessageButton}
+          onPress={handleSendMessage}>
           <Image
             source={require('../assets/images/send-icon.png')}
             style={styles.sendIcon}
