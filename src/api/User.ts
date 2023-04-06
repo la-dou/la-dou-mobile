@@ -3,8 +3,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 const API_URL = 'http://10.0.2.2:8000';
 
-export const getUser = async () => {
-  const token = await EncryptedStorage.getItem('token');
+export const getUser = async (token: string) => {
   const config = {
     method: "get",
     url: `${API_URL}/me`,
