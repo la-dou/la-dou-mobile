@@ -130,7 +130,7 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
             iconSource={require('../assets/images/search-icon.png')}
             text="Search"
             onPress={() => {
-              // navigation.navigate('Search');
+              navigation.navigate('Search');
             }}
           />
         ) : (
