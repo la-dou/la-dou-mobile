@@ -11,6 +11,7 @@ import {updatePhone, updatePassword} from '../api/User';
 const Profile = () => {
   const {colors} = useTheme();
   const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
+  const isAdmin = userDetails?.role === 'admin';
   const [phoneNumber, setPhoneNumber] = React.useState(
     userDetails.phone_number,
   );
@@ -27,7 +28,7 @@ const Profile = () => {
       Alert.alert('Password must be at least 8 characters');
       return;
     }
-    if (phoneNumber.length !== 11) {
+    if (phoneNumber.length !== 11 && !isAdmin) {
       Alert.alert('Please enter a valid phone number');
       return;
     }
@@ -76,6 +77,7 @@ const Profile = () => {
       />
       <AppTextInput
         secondary
+        disabled={isAdmin}
         heading="Phone Number (03XX-XXXXXXX)"
         placeholder="Phone Number"
         value={phoneNumber}
