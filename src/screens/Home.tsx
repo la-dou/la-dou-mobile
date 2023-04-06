@@ -171,6 +171,9 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
             <MenuButton
               iconSource={require('../assets/images/history-icon.png')}
               text="History"
+              onPress={() => {
+                navigation.navigate('OrderHistory');
+              }}
             />
           </>
         )}
