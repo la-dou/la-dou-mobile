@@ -25,6 +25,7 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   const [userDetails, setUserDetails] = useRecoilState(userDetailsAtom);
   const [role, setRole] = useRecoilState(roleAtom);
+  const isAdmin = userDetails?.role === 'admin';
   const greetings = [
     'Hello',
     'Hi',
@@ -123,42 +124,58 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
         </Text>
       </View>
       <View style={styles.menuContainer}>
+        {isAdmin ? (
+          <MenuButton
+            primary
+            iconSource={require('../assets/images/search-icon.png')}
+            text="Search"
+            onPress={() => {
+              // navigation.navigate('Search');
+            }}
+          />
+        ) : (
+          <>
+            <MenuButton
+              primary
+              iconSource={
+                role === 'customer'
+                  ? require('../assets/images/cart-icon.png')
+                  : require('../assets/images/bids-icon.png')
+              }
+              text={role === 'customer' ? 'Place Orders' : 'Place Bids'}
+            />
+            <MenuButton
+              primary
+              iconSource={require('../assets/images/switch-icon.png')}
+              text={
+                role === 'customer' ? 'Switch to Driver' : 'Switch to Customer'
+              }
+              onPress={() => {
+                if (role === 'customer' && userDetails?.driver_disabled) {
+                  Alert.alert(
+                    'Account disabled',
+                    'Your driver account has been disabled. Please contact the admin for more details.',
+                  );
+                  return;
+                }
+                if (role === 'driver' && userDetails?.customer_disabled) {
+                  Alert.alert(
+                    'Account disabled',
+                    'Your customer account has been disabled. Please contact the admin for more details.',
+                  );
+                  return;
+                }
+                setRole(role === 'customer' ? 'driver' : 'customer');
+              }}
+            />
+            <MenuButton
+              iconSource={require('../assets/images/history-icon.png')}
+              text="History"
+            />
+          </>
+        )}
         <MenuButton
-          primary
-          iconSource={
-            role === 'customer'
-              ? require('../assets/images/cart-icon.png')
-              : require('../assets/images/bids-icon.png')
-          }
-          text={role === 'customer' ? 'Place Orders' : 'Place Bids'}
-        />
-        <MenuButton
-          primary
-          iconSource={require('../assets/images/switch-icon.png')}
-          text={role === 'customer' ? 'Switch to Driver' : 'Switch to Customer'}
-          onPress={() => {
-            if (role === 'customer' && userDetails?.driver_disabled) {
-              Alert.alert(
-                'Account disabled',
-                'Your driver account has been disabled. Please contact the admin for more details.',
-              );
-              return;
-            }
-            if (role === 'driver' && userDetails?.customer_disabled) {
-              Alert.alert(
-                'Account disabled',
-                'Your customer account has been disabled. Please contact the admin for more details.',
-              );
-              return;
-            }
-            setRole(role === 'customer' ? 'driver' : 'customer');
-          }}
-        />
-        <MenuButton
-          iconSource={require('../assets/images/history-icon.png')}
-          text="History"
-        />
-        <MenuButton
+          primary={isAdmin}
           iconSource={require('../assets/images/profile-icon.png')}
           text="Profile"
           onPress={() => {
