@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const AdminHome = () => {
+const Search = () => {
   return (
     <View>
-      <Text>AdminHome</Text>
+      <Text>Search</Text>
     </View>
   )
 }
 
-export default AdminHome
+export default Search
 
 const styles = StyleSheet.create({})
