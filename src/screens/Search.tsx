@@ -19,9 +19,30 @@ const Search: React.FC<SearchProps> = () => {
   const [userList, setUserList] = React.useState<any>([]);
   const onChangeSetSearchVal = async (val: string) => {
     //console.log(val);
-    setSearchVal(val);
-    const res = await adminGetUsers(val);
-    setUserList(res);
+
+    // deal with empty val
+    if (val === '') {
+      setSearchVal(val);
+      setUserList([]);
+      return;
+    } else {
+      setSearchVal(val);
+
+      // get users
+      const users = await adminGetUsers(val);
+      //console.log(users);
+      setUserList(users);
+    }
+
+    // set search val
+
+    // set user list
+
+    // setSearchVal(val);
+    // console.log(`searching for ${val}...`);
+    // const res = await adminGetUsers(val);
+    // console.log(res);
+    // setUserList(res);
   };
 
   return (
