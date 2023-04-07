@@ -3,16 +3,20 @@ import React from 'react';
 import Card from '../components/Card';
 import {MainStackParamList} from '../navigation/MainStack';
 import PrimaryTheme from '../theme/Primary';
-import {sendDriverRating} from '../api/Rating';
+import {sendDriverRating, sendCustomerRating} from '../api/Rating';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useRecoilState} from 'recoil';
+import {role as roleAtom} from '../atoms';
 
 type RatingProps = NativeStackScreenProps<MainStackParamList, 'Rating'>;
 const Rating: React.FC<RatingProps> = ({navigation, route}) => {
   // navigat prop
   //console.log('rendered rating screen');
-  const driver_roll = route.params.driver_roll_number;
+  const [role, setRole] = useRecoilState(roleAtom);
+  //console.log(role);
+  const roll_number_to_rate = route.params.roll_number_to_rate;
   const [rating, setRating] = React.useState(0);
   return (
     <View style={{flex: 1, alignItems: 'center', marginTop: '80%'}}>
@@ -22,16 +26,24 @@ const Rating: React.FC<RatingProps> = ({navigation, route}) => {
         <Text style={styles.textStyles}>Thank you for using</Text>
         <Text style={styles.textStyles}>La-dou</Text>
         <Text style={[styles.textStyles, styles.delivered, styles.rate]}>
-          Rate the driver:
+          Rate the {role === 'driver' ? 'customer' : 'driver'}
         </Text>
         <Card
           onSubmitHandler={async (rating: any) => {
             try {
-              const res = await sendDriverRating(driver_roll, rating);
+              if (role === 'driver') {
+                const res = await sendCustomerRating(
+                  roll_number_to_rate,
+                  rating,
+                );
+              } else {
+                const res = await sendDriverRating(roll_number_to_rate, rating);
+              }
               Alert.alert('Success', 'Rating submitted');
               //TODO:  handle next step
             } catch (e) {
               Alert.alert('Error', 'Something went wrong');
+              //console.log(e);
               //TODO:  handle next step
             }
           }}
