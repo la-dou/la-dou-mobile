@@ -20,13 +20,11 @@ const Card = (props: CardProps) => {
     <View
       style={{
         backgroundColor: '#262626',
-
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#CB4B47',
-        width: '80%',
         height: 100,
-        padding: 0,
+        margin: 10,
         flexDirection: 'row',
         alignSelf: 'center',
         alignItems: 'center',
