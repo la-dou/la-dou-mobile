@@ -1,6 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import PrimaryTheme from '../theme/Primary';
 import {useTheme} from '@react-navigation/native';
 
 export type InfoCardProps = {
@@ -22,13 +21,15 @@ export type InfoCardProps = {
       data: string;
     },
   ];
+  onPress: () => void;
 };
 
-const InfoCard: React.FC<InfoCardProps> = ({data}) => {
+const InfoCard: React.FC<InfoCardProps> = ({data, onPress}) => {
   const {colors} = useTheme();
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={{
         width: '100%',
         borderColor: '#CB4B47',
@@ -60,7 +61,7 @@ const InfoCard: React.FC<InfoCardProps> = ({data}) => {
               <Text
                 style={{
                   fontFamily: 'Montserrat-SemiBold',
-                  color: PrimaryTheme.colors.primary,
+                  color: colors.primary,
                   flex: 1,
                   fontSize: 13,
                 }}
@@ -71,7 +72,7 @@ const InfoCard: React.FC<InfoCardProps> = ({data}) => {
           ))}
         </View>
       ))}
-    </View>
+    </TouchableOpacity>
   );
 };
 

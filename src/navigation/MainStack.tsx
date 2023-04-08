@@ -9,8 +9,9 @@ import Otp from '../screens/Otp';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 import Rating from '../screens/Rating';
-import PlaceOrder from '../screens/PlaceOrder'
+import PlaceOrder from '../screens/PlaceOrder';
 import OrderHistory from '../screens/OrderHistory';
+import UserDetails from '../screens/UserDetails';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -27,6 +28,21 @@ export type MainStackParamList = {
   };
   PlaceOrder: undefined;
   OrderHistory: undefined;
+  UserDetails: {
+    userDetails: {
+      amount_as_customer: Number;
+      amount_as_driver: Number;
+      count_as_customer: Number;
+      count_as_driver: Number;
+      deactivated_customer: boolean;
+      deactivated_driver: boolean;
+      name: string;
+      phone_number: string;
+      rating_as_customer: string;
+      rating_as_driver: string;
+      roll_no: Number;
+    };
+  };
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -63,6 +79,7 @@ const MainNav = () => {
       {/* navigation.navigate('Rating', {driver_roll_number: 24100043}); */}
       <MainStack.Screen name="PlaceOrder" component={PlaceOrder} />
       <MainStack.Screen name="OrderHistory" component={OrderHistory} />
+      <MainStack.Screen name="UserDetails" component={UserDetails} />
     </MainStack.Navigator>
   );
 };

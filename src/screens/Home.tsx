@@ -150,15 +150,17 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
               text={
                 role === 'customer' ? 'Switch to Driver' : 'Switch to Customer'
               }
-              onPress={() => {
-                if (role === 'customer' && userDetails?.driver_disabled) {
+              onPress={async () => {
+                const user = await getUser(authToken);
+                setUserDetails(user);
+                if (role === 'customer' && user?.driver_disabled) {
                   Alert.alert(
                     'Account disabled',
                     'Your driver account has been disabled. Please contact the admin for more details.',
                   );
                   return;
                 }
-                if (role === 'driver' && userDetails?.customer_disabled) {
+                if (role === 'driver' && user?.customer_disabled) {
                   Alert.alert(
                     'Account disabled',
                     'Your customer account has been disabled. Please contact the admin for more details.',

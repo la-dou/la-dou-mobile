@@ -19,3 +19,37 @@ export const adminGetUsers = async (search: string) => {
   // console.log(typeof response.data);
   return response.data;
 };
+
+export const toggleDriver = async (rollNumber: Number) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'post',
+    url: `${API_URL}/admin/toggle/driver?roll_no=${rollNumber}`,
+    headers: {
+      // 'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios(config);
+  // console.log(response.data);
+  // console.log(typeof response.data);
+  return response.data;
+}
+
+export const toggleCustomer = async (rollNumber: Number) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'post',
+    url: `${API_URL}/admin/toggle/customer?roll_no=${rollNumber}`,
+    headers: {
+      // 'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios(config);
+  // console.log(response.data);
+  // console.log(typeof response.data);
+  return response.data;
+}
