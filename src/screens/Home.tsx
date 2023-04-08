@@ -143,6 +143,9 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
                   : require('../assets/images/bids-icon.png')
               }
               text={role === 'customer' ? 'Place Orders' : 'Place Bids'}
+              onPress={() => {
+                navigation.navigate('PlaceOrder');
+              }}
             />
             <MenuButton
               primary
