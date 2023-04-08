@@ -4,6 +4,7 @@ import {useTheme} from '@react-navigation/native';
 import HrText from '../components/HrText';
 import {MainStackParamList} from '../navigation/MainStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {toggleCustomer, toggleDriver} from '../api/Admin';
 
 export type DataRowProps = {
   label: string;
@@ -89,18 +90,25 @@ const UserDetails: React.FC<UserDetailsProps> = ({route}) => {
               styles.toggleButtonContainer,
               {
                 borderColor: driverIsActive ? colors.primary : colors.text,
-                backgroundColor: driverIsActive
-                  ? colors.primary
-                  : colors.text,
+                backgroundColor: driverIsActive ? colors.primary : colors.text,
               },
             ]}>
             <Switch
               trackColor={{false: colors.text, true: colors.primary}}
               thumbColor={'#000'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={() => {
-                console.log('Switched');
+              onValueChange={async () => {
+                const originalValue = driverIsActive;
                 setDriverIsActive(!driverIsActive);
+                try {
+                  const res = await toggleDriver(
+                    route.params.userDetails.roll_no,
+                  );
+                  console.log(res);
+                } catch (error) {
+                  console.log(error);
+                  setDriverIsActive(originalValue);
+                }
               }}
               value={driverIsActive}
               style={styles.toggleButton}
@@ -141,9 +149,18 @@ const UserDetails: React.FC<UserDetailsProps> = ({route}) => {
               trackColor={{false: colors.text, true: colors.primary}}
               thumbColor={'#000'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={() => {
-                console.log('Switched');
+              onValueChange={async () => {
+                const originalValue = customerIsActive;
                 setCustomerIsActive(!customerIsActive);
+                try {
+                  const res = await toggleCustomer(
+                    route.params.userDetails.roll_no,
+                  );
+                  console.log(res);
+                } catch (error) {
+                  console.log(error);
+                  setCustomerIsActive(originalValue);
+                }
               }}
               value={customerIsActive}
               style={styles.toggleButton}
