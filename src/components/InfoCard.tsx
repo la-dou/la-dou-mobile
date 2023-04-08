@@ -21,7 +21,7 @@ export type InfoCardProps = {
       data: string;
     },
   ];
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 const InfoCard: React.FC<InfoCardProps> = ({data, onPress}) => {

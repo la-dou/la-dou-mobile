@@ -5,8 +5,12 @@ import HrText from '../components/HrText';
 import AppButton from '../components/Button';
 import AppTextInput from '../components/AppTextInput';
 import {postJob} from '../api/Jobs';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParamList} from '../navigation/MainStack';
 
-const PlaceOrder = () => {
+type PlaceOrderProps = NativeStackScreenProps<MainStackParamList, 'PlaceOrder'>;
+
+const PlaceOrder: React.FC<PlaceOrderProps> = ({navigation}) => {
   const {colors} = useTheme();
   const [pickup, setPickup] = React.useState('');
   const [dropoff, setDropoff] = React.useState('');
@@ -58,7 +62,12 @@ const PlaceOrder = () => {
         deliveryNote,
       );
       console.log(res);
-      Alert.alert('Order posted successfully!');
+      Alert.alert('Order posted successfully!', '', [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('ViewBids'),
+        },
+      ]);
     } catch (error) {
       console.log(error);
       Alert.alert('Error posting order!');
