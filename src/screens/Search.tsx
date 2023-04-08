@@ -1,11 +1,4 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Image, ScrollView, StyleSheet, TextInput, View} from 'react-native';
 import React from 'react';
 import PrimaryTheme from '../theme/Primary';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -14,7 +7,7 @@ import {adminGetUsers} from '../api/Admin';
 import InfoCard from '../components/InfoCard';
 
 type SearchProps = NativeStackScreenProps<MainStackParamList, 'Search'>;
-const Search: React.FC<SearchProps> = () => {
+const Search: React.FC<SearchProps> = ({navigation}) => {
   const [searchVal, setSearchVal] = React.useState('');
   const [userList, setUserList] = React.useState<any>([]);
   const onChangeSetSearchVal = async (val: string) => {
@@ -95,6 +88,11 @@ const Search: React.FC<SearchProps> = () => {
                       : item.rating_as_driver + '⭐️',
                 },
               ]}
+              onPress={() => {
+                navigation.navigate('UserDetails', {
+                  userDetails: item,
+                });
+              }}
             />
           );
         })}
