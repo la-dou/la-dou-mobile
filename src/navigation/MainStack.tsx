@@ -23,7 +23,7 @@ export type MainStackParamList = {
   Profile: undefined;
   Search: undefined;
   Rating: {
-    driver_roll_number: Number;
+    roll_number_to_rate: Number; // can be for driver or customer
   };
   PlaceOrder: undefined;
   OrderHistory: undefined;
