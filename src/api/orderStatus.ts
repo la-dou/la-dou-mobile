@@ -19,3 +19,20 @@ export const getOrderStatus = async () => {
 
     return status;
 }
+
+export const cancelOrder = async () => {
+    const token = await EncryptedStorage.getItem('token');
+    const config = {
+    method: 'post',
+    url: `${API_URL}/driver/order/updatestatus/cancelled/`,
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+    }
+    };
+    const response = await axios(config);
+
+    let status = response.data;
+
+    return status;
+}

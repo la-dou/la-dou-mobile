@@ -2,31 +2,33 @@ import {StyleSheet, Alert, View, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import AppButton from '../components/Button';
-import { getOrderStatus } from '../api/orderStatus';
+import { getOrderStatus, cancelOrder } from '../api/orderStatus';
 import Card from '../components/Card';
 import {sendDriverRating} from '../api/Rating';
-
+import PrimaryTheme from '../theme/Primary';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParamList} from '../navigation/MainStack';
 
 const MiddleSection = ( {current_status, driver_name} ) => {
   
   if (current_status === 'picking') {
     return (
       <View style={styles.textContainer}>
-        <Text style={{color: 'white', fontSize: 28}}>{driver_name} is on the way to pick up your order.</Text>
+        <Text style={styles.textStyles}>{driver_name} is on the way to pick up your order.</Text>
       </View>
     );
   }
   else if (current_status === 'orderPicked') {
     return (
       <View style={styles.textContainer}>
-        <Text style={{color: 'white', fontSize: 28}}>{driver_name} has picked up your order. They are on their way to you.</Text>
+        <Text style={styles.textStyles}>{driver_name} has picked up your order. They are on their way to you.</Text>
       </View>
     );
   }
   else if (current_status === 'orderArrived') {
     return (
       <View style={styles.textContainer}>
-        <Text style={{color: 'white', fontSize: 28}}>Your order is here. Please receive it.</Text>
+        <Text style={styles.textStyles}>Your order is here. Please receive it.</Text>
       </View>
     );
   }
@@ -34,16 +36,8 @@ const MiddleSection = ( {current_status, driver_name} ) => {
   {
     return (
       <View style={styles.textContainer}>
-        <Text style={{color: 'white', fontSize: 28}}>Your order was successfully delivered. Thank you for using La-dou.
+        <Text style={styles.textStyles}>Your order was successfully delivered. Thank you for using La-dou.
         </Text>
-      </View>
-    );
-  }
-  else if (current_status === 'pending')
-  {  
-    return (
-      <View style={styles.textContainer}>
-        <Text style={{color: 'white', fontSize: 28}}>Waiting on confirmation. The order is pending.</Text>
       </View>
     );
   }
@@ -51,18 +45,18 @@ const MiddleSection = ( {current_status, driver_name} ) => {
   {  
     return (
       <View style={styles.textContainer}>
-        <Text style={{color: 'white', fontSize: 28}}>No Orders Yet.</Text>
+        <Text style={styles.textStyles}>No Orders Yet.</Text>
       </View>
     );
   }
   return (
     <View style={styles.textContainer}>
-      <Text style={{color: 'white', fontSize: 28}}>Waiting on confirmation. The order is pending.</Text>
+      <Text style={styles.textStyles}>Waiting on confirmation. The order is pending.</Text>
     </View>
   );
 };
 
-const BottomSection = ({current_status}) => {
+const BottomSection = ({current_status, driver_roll_no}) => {
 
   if (current_status === 'picking') {
     return (
@@ -70,23 +64,30 @@ const BottomSection = ({current_status}) => {
         <AppButton primary>
           Contact Driver
         </AppButton>
-        <AppButton>
+        <AppButton onPress={ async () => {
+          try{
+            const res = await cancelOrder();
+            Alert.alert('Success', 'Order cancelled');
+          } catch (e) {
+            Alert.alert('Error', 'Something went wrong');
+          }
+        } }>
           Cancel Order
         </AppButton>
       </>
     );
   }
-  // TODO : NEED TO UPDATE WITH PROPER RATING SYS
   else if (current_status === 'delivery_success') {
     return (
       <>
         <Card
           onSubmitHandler={async (rating: any) => {
             try {
-              // const res = await sendDriverRating(driver_roll, rating);
+              const res = await sendDriverRating(driver_roll_no, rating);
               Alert.alert('Success', 'Rating submitted');
               //TODO:  handle next step
             } catch (e) {
+              console.log(e);
               Alert.alert('Error', 'Something went wrong');
               //TODO:  handle next step
             }
@@ -104,7 +105,7 @@ const BottomSection = ({current_status}) => {
       </>
     );
   }
-  else if (current_status === 'pending' || current_status === 'null')
+  else if (current_status === 'pending' || current_status === 'null' || !current_status)
   {
     return (
       <>
@@ -112,7 +113,7 @@ const BottomSection = ({current_status}) => {
       </>
     );
   }
-  return (
+  else return (
     <>
       <AppButton primary>
         Contact Driver
@@ -123,29 +124,34 @@ const BottomSection = ({current_status}) => {
 
 const AcceptBid = () => {
   const {colors} = useTheme();
-  // const [pickup, setPickup] = React.useState('');\
-  // const [orderStatus, setOrderStatus] = React.useState('');
-  // const [driverName, setDriverName] = React.useState('');
+  const [current_status, setCurrentStatus] = React.useState('null');
+  const [driver_name, setDriverName] = React.useState('null');
+  const [driver_roll, setDriverRoll] = React.useState('null');
 
-  // React.useEffect(() => {
-  //   async function fetchOrderStatus() {
-  //     const response = await getOrderStatus();
-  //     setOrderStatus(response.status);
-  //     setDriverName(response.driver_name);
-  //   }
-  //   fetchOrderStatus();
-  // }, []);
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await getOrderStatus();
+        setCurrentStatus(res.order_status);
+        setDriverName(res.driver_name);
+        setDriverRoll(res.driver_roll_no);
+      } catch (e) {
+        // console.log(e);
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-  // // let current_stat = getOrderStatus();
-  // console.log("Current status:", orderStatus)
-
-  let orderStatus = "delivery_success";
-  let driverName = "John Doe";
+  // let orderStatus = "picking";
+  // let driverName = "John Doe";
+  console.log("Current Status: ", current_status);
+  console.log("Driver Name: ", driver_name);
+  console.log("Driver Roll: ", driver_roll);
 
   return (
     <View style={styles.container}>
-      <MiddleSection current_status={orderStatus} driver_name={driverName}/>
-      <BottomSection current_status={orderStatus}/>
+      <MiddleSection current_status={current_status} driver_name={driver_name}/>
+      <BottomSection current_status={current_status} driver_roll_no={driver_roll}/>
     </View>
   );
 };
@@ -168,6 +174,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textStyles: {
+    fontSize: 20,
+    color: PrimaryTheme.colors.primary,
+    fontFamily: 'Montserrat-Regular',
+    lineHeight: 24,
+  }
 });
 
 
