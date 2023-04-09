@@ -9,26 +9,37 @@ import AppButton from '../components/Button';
 import Card from '../components/Card';
 import HrText from '../components/HrText';
 
-import {getJobs} from '../api/Jobs';
-import { MainStackParamList } from '../navigation/MainStack';
-
-
+import {getJobs, postBid} from '../api/Jobs';
+import {MainStackParamList} from '../navigation/MainStack';
 
 type PlaceBidsProps = NativeStackScreenProps<MainStackParamList, 'PlaceBids'>;
 
+type Job = {
+  order_id: string;
+  deliver_to: string;
+  deliver_from: string;
+  notes: string;
+  delivery_price: Number;
+  order_amount: Number;
+  placed_at: string;
+  status: string;
+  driver_roll_no: Number;
+};
+
 const PlaceBids: React.FC<PlaceBidsProps> = ({navigation}) => {
   const {colors} = useTheme();
-  const onSubmit = () => {};
-
-  const [jobs, setJobs] = React.useState([]);
+  const [jobs, setJobs] = React.useState<[Job]>();
 
   //   Every 5 seconds, fetch the jobs from the server
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      getJobs().then(res => {
-        setJobs(res.data);
-      });
-    }, 5000);
+    const interval = setInterval(async () => {
+      try {
+        const data = await getJobs();
+        setJobs(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -38,21 +49,26 @@ const PlaceBids: React.FC<PlaceBidsProps> = ({navigation}) => {
         Available Jobs
       </HrText>
       <ScrollView>
-        <Card
-          onSubmitHandler={onSubmit}
-          children={1}
-          data={{to: 'SSE Entrance', from: 'SSE Entrance'}}
-        />
-        {/* {jobs.map((job, index) => (
-            <Card
-                key={index}
-                onSubmitHandler={onSubmit}
-                children={1}
-                data={{to: job.to, from: job.from}}
-            />
-        ))} */}
+        {jobs?.map((job, index) => (
+          <Card
+            key={index}
+            onSubmitHandler={async (driverBid: Number) => {
+              try {
+                await postBid(job.order_id, driverBid);
+                navigation.replace('WaitScreen');
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+            children={1}
+            data={{
+              to: job.deliver_to,
+              from: job.deliver_from,
+              bid: job.delivery_price,
+            }}
+          />
+        ))}
       </ScrollView>
-      <AppButton primary > Next </AppButton>
     </View>
   );
 };
