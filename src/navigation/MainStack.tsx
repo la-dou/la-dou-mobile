@@ -56,9 +56,11 @@ export type MainStackParamList = {
   };
   Chat: {
     guest_roll_no: Number;
-  }
+  };
   AcceptBid: undefined;
-  DriverProgress: undefined;
+  DriverProgress: {
+    order_id: string;
+  };
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
