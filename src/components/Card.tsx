@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Text, View, TouchableOpacity, Image, TextInput} from 'react-native';
-import React from 'react';
+import React, { Children } from 'react';
 import PrimaryTheme from '../theme/Primary';
 import RatingButton from './RatingButton';
 
@@ -15,7 +15,7 @@ export type CardProps = {
 const Card = (props: CardProps) => {
   const {colors} = PrimaryTheme;
   const [rating, setRating] = React.useState(0);
-  const [driverBid, setDriverBid] = React.useState('');
+  const [driverBid, setDriverBid] = React.useState(String(props.data.bid));
   return (
     <View
       style={{
@@ -83,8 +83,6 @@ const Card = (props: CardProps) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                borderBottomColor: colors.primary,
-                borderBottomWidth: 1,
                 width: '20%',
               }}>
               <Text
@@ -92,27 +90,23 @@ const Card = (props: CardProps) => {
                   fontSize: 15,
                   fontFamily: 'Montserrat-Regular',
                   color: colors.primary,
-                  fontWeight: '400',
                 }}>
                 Rs.
               </Text>
               <TextInput
                 // value={`Rs. ${driverBid}`}
                 // onChangeText={text => setDriverBid(text.replace(/^Rs. /, ''))}
-
                 placeholderTextColor={colors.primary}
                 value={driverBid}
                 onChangeText={text => setDriverBid(text)}
-                //underline
                 style={{
+                  borderBottomColor: colors.primary,
+                  borderBottomWidth: 1,
                   color: colors.primary,
-
                   fontSize: 15,
                   fontFamily: 'Montserrat-Regular',
                   height: 40,
-                  fontWeight: '400',
-
-                  textAlign: 'center',
+                  minWidth: 40,
                 }}
               />
             </View>
@@ -167,7 +161,7 @@ const Card = (props: CardProps) => {
           height: '100%',
         }}
         onPress={() => {
-          props.onSubmitHandler(rating);
+          props.onSubmitHandler(props.children === 0 ? rating : Number(driverBid));
         }}>
         <Image
           source={require('../assets/images/logo-check.png')}

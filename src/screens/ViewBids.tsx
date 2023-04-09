@@ -8,64 +8,65 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import AppButton from '../components/Button';
 import Card from '../components/Card';
 import HrText from '../components/HrText';
+import {getBids, acceptBid} from '../api/Jobs';
+import { MainStackParamList } from '../navigation/MainStack';
 
-const bids = [
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },{
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },{
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },{
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },
-  {
-    name: 'Saad Mehmoon',
-    bid: 'Rs. 500',
-  },  
-]
+type Bid = {
+  driver_roll_no: Number;
+  name: string;
+  bid: string;
+};
 
-const ViewBids = () => {
+type ViewBidsProps = NativeStackScreenProps<MainStackParamList, 'ViewBids'>;
+
+const ViewBids: React.FC<ViewBidsProps> = ({navigation}) => {
   const {colors} = useTheme();
-  const onSubmit = () => {};
+  const [bids, setBids] = React.useState<[Bid]>();
+
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const data = await getBids();
+        setBids(data);
+        
+      } catch (err) {
+        console.log(err);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+  const onSubmit = async (driver_roll_no: Number) => {
+    try {
+      await acceptBid(driver_roll_no);
+      navigation.replace('WaitScreen');
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <View style={styles.container}>
-      <HrText hrColor={colors.text} textStyle={{color: colors.text}}>Bids</HrText>
+      <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
+        Bids
+      </HrText>
       <ScrollView>
-        {bids.map((bid, index) => (
-          <Card key={index} onSubmitHandler={onSubmit} children={2} data={bid}  />
-        ))}
+        {bids?.map((bid, index) => {
+          bid.bid = 'Rs. ' + bid.bid;
+          return (
+            <Card
+              key={index}
+              onSubmitHandler={() => onSubmit(bid.driver_roll_no)}
+              children={2}
+              data={bid}
+            />
+          );
+        })}
       </ScrollView>
-      <AppButton primary > Cancel Order </AppButton>
+      <AppButton primary> Cancel Order </AppButton>
     </View>
-  )
-}
+  );
+};
 
-export default ViewBids
+export default ViewBids;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,5 +74,5 @@ const styles = StyleSheet.create({
     marginTop: '30%',
     padding: 30,
     alignItems: 'center',
-  }
-})
+  },
+});
