@@ -150,7 +150,7 @@ const AcceptBid = () => {
 
         console.log(res);
       } catch (e) {
-        // console.log(e);
+        console.log(e);
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -158,6 +158,7 @@ const AcceptBid = () => {
 
   return (
     <View style={styles.container}>
+      {/* {current_status ? <MiddleSection current_status={current_status} driver_name={driver_name}/> : <></>} */}
       <MiddleSection current_status={current_status} driver_name={driver_name}/>
       <BottomSection current_status={current_status} driver_roll_no={driver_roll}/>
     </View>

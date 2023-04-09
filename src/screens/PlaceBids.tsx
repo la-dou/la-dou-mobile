@@ -55,7 +55,7 @@ const PlaceBids: React.FC<PlaceBidsProps> = ({navigation}) => {
             onSubmitHandler={async (driverBid: Number) => {
               try {
                 await postBid(job.order_id, driverBid);
-                navigation.replace('WaitScreen');
+                navigation.replace('WaitScreen', {order_id: job.order_id});
               } catch (err) {
                 console.log(err);
               }

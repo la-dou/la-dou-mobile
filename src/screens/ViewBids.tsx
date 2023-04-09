@@ -38,7 +38,7 @@ const ViewBids: React.FC<ViewBidsProps> = ({navigation}) => {
   const onSubmit = async (driver_roll_no: Number) => {
     try {
       await acceptBid(driver_roll_no);
-      navigation.replace('WaitScreen');
+      navigation.replace('AcceptBid');
     } catch (err) {
       console.log(err);
     }

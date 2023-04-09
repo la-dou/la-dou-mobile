@@ -17,6 +17,7 @@ import AcceptBid from '../screens/AcceptBid';
 import PlaceBids from '../screens/PlaceBids';
 import WaitScreen from '../screens/WaitScreen';
 import Chat from '../screens/Chat';
+import DriverProgress from '../screens/DriverProgress';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -50,10 +51,14 @@ export type MainStackParamList = {
   };
   ViewBids: undefined;
   PlaceBids: undefined;
-  WaitScreen: undefined;
+  WaitScreen: {
+    order_id: string;
+  };
   Chat: {
     guest_roll_no: Number;
   }
+  AcceptBid: undefined;
+  DriverProgress: undefined;
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -95,6 +100,8 @@ const MainNav = () => {
       <MainStack.Screen name='PlaceBids' component={PlaceBids} />
       <MainStack.Screen name='WaitScreen' component={WaitScreen} />
       <MainStack.Screen name="Chat" component={Chat} options={{headerShown: false}} />
+      <MainStack.Screen name='AcceptBid' component={AcceptBid} />
+      <MainStack.Screen name='DriverProgress' component={DriverProgress} />
     </MainStack.Navigator>
   );
 };

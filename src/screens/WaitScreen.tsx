@@ -5,7 +5,7 @@ import PrimaryTheme from '../theme/Primary';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 type WaitScreenProps = NativeStackScreenProps<MainStackParamList, 'WaitScreen'>;
-const WaitScreen: React.FC<WaitScreenProps> = ({navigation}) => {
+const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View
