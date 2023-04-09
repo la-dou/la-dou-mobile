@@ -59,3 +59,31 @@ export const postBid = async (jobId: string, bidAmount: Number) => {
   const response = await axios(config);
   return response.data;
 }
+
+export const getBids = async () => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'get',
+    url: `${API_URL}/customer/order/viewbids`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}
+
+export const acceptBid = async (driver_roll_no: Number) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'post',
+    url: `${API_URL}/customer/order/acceptbid?driver_roll_no=${driver_roll_no}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}
