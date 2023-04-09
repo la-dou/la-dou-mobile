@@ -13,6 +13,7 @@ import PlaceOrder from '../screens/PlaceOrder';
 import OrderHistory from '../screens/OrderHistory';
 import UserDetails from '../screens/UserDetails';
 import ViewBids from '../screens/ViewBids';
+import AcceptBid from '../screens/AcceptBid';
 import PlaceBids from '../screens/PlaceBids';
 import WaitScreen from '../screens/WaitScreen';
 import Chat from '../screens/Chat';
