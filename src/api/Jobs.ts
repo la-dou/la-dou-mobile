@@ -58,7 +58,7 @@ export const postBid = async (jobId: string, bidAmount: Number) => {
   };
   const response = await axios(config);
   return response.data;
-}
+};
 
 export const getBids = async () => {
   const token = await EncryptedStorage.getItem('token');
@@ -72,7 +72,7 @@ export const getBids = async () => {
   };
   const response = await axios(config);
   return response.data;
-}
+};
 
 export const acceptBid = async (driver_roll_no: Number) => {
   const token = await EncryptedStorage.getItem('token');
@@ -86,7 +86,7 @@ export const acceptBid = async (driver_roll_no: Number) => {
   };
   const response = await axios(config);
   return response.data;
-}
+};
 
 export const getOrderHistory = async () => {
   const token = await EncryptedStorage.getItem('token');
@@ -100,4 +100,18 @@ export const getOrderHistory = async () => {
   };
   const response = await axios(config);
   return response.data;
-}
+};
+
+export const getOrderStatusDriver = async (order_id: string) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'get',
+    url: `${API_URL}/driver/order/getStatus?order_id=${order_id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+};

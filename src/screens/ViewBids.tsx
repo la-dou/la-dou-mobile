@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -10,6 +10,7 @@ import Card from '../components/Card';
 import HrText from '../components/HrText';
 import {getBids, acceptBid} from '../api/Jobs';
 import { MainStackParamList } from '../navigation/MainStack';
+import { updateOrderStatus } from '../api/orderStatus';
 
 type Bid = {
   driver_roll_no: Number;
@@ -61,7 +62,18 @@ const ViewBids: React.FC<ViewBidsProps> = ({navigation}) => {
           );
         })}
       </ScrollView>
-      <AppButton primary> Cancel Order </AppButton>
+      <AppButton onPress={ async () => {
+          try{
+            const res = await updateOrderStatus("cancelled");
+            Alert.alert('Success', 'Order cancelled');
+            navigation.replace('Home');
+
+          } catch (e) {
+            Alert.alert('Error', 'Something went wrong');
+          }
+        } }>
+          Cancel Order
+        </AppButton>
     </View>
   );
 };

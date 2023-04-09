@@ -28,7 +28,7 @@ const OrderHistory = () => {
       } catch (err) {
         console.log(err);
       }
-    }, 20000);
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 

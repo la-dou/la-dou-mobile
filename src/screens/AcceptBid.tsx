@@ -56,7 +56,7 @@ const MiddleSection = ( {current_status, driver_name} ) => {
   );
 };
 
-const BottomSection = ({current_status, driver_roll_no}) => {
+const BottomSection = ({current_status, driver_roll_no, navigation}) => {
 
   if (current_status === 'picking') {
     return (
@@ -71,6 +71,8 @@ const BottomSection = ({current_status, driver_roll_no}) => {
           try{
             const res = await updateOrderStatus("cancelled");
             Alert.alert('Success', 'Order cancelled');
+            navigation.replace('Home');
+
           } catch (e) {
             Alert.alert('Error', 'Something went wrong');
           }
@@ -127,6 +129,7 @@ const BottomSection = ({current_status, driver_roll_no}) => {
       <AppButton primary onPress={() => {
         Alert.alert('Error', 'This feature is not yet available');
         // TODO implement this
+        navigation.navigate('Chat', {driver_roll_no: driver_roll_no})
       }}>
         Contact Driver
       </AppButton>
@@ -134,7 +137,9 @@ const BottomSection = ({current_status, driver_roll_no}) => {
   );
 };
 
-const AcceptBid = () => {
+type AcceptBidProps = NativeStackScreenProps<MainStackParamList, 'AcceptBid'>;
+
+const AcceptBid: React.FC<AcceptBidProps>  = ({navigation}) => {
   const {colors} = useTheme();
   const [current_status, setCurrentStatus] = React.useState('null');
   const [driver_name, setDriverName] = React.useState('null');
@@ -160,7 +165,7 @@ const AcceptBid = () => {
     <View style={styles.container}>
       {/* {current_status ? <MiddleSection current_status={current_status} driver_name={driver_name}/> : <></>} */}
       <MiddleSection current_status={current_status} driver_name={driver_name}/>
-      <BottomSection current_status={current_status} driver_roll_no={driver_roll}/>
+      <BottomSection current_status={current_status} driver_roll_no={driver_roll} navigation={navigation} />
     </View>
   );
 };

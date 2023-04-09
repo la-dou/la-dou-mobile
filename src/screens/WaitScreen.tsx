@@ -1,11 +1,38 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React from 'react';
 import {MainStackParamList} from '../navigation/MainStack';
 import PrimaryTheme from '../theme/Primary';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {getOrderStatusDriver} from '../api/Jobs';
+
 type WaitScreenProps = NativeStackScreenProps<MainStackParamList, 'WaitScreen'>;
 const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
+
+  let {order_id} = route.params;
+
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const data = await getOrderStatusDriver(order_id);
+        if (data.status === 'picking') {
+          navigation.replace('DriverProgress');
+        }
+        else if (data.status === 'denied') {
+          Alert.alert("Your bid was rejected by the customer.");
+          navigation.replace("Home");
+        }
+        else if (data.status === 'cancelled') {
+          Alert.alert("The customer cancelled the order.");
+          navigation.replace("Home");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View
