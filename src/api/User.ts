@@ -1,7 +1,7 @@
 import axios from "axios";
 import EncryptedStorage from 'react-native-encrypted-storage';
 
-const API_URL = 'http://10.0.2.2:8000';
+const API_URL = 'https://goldfish-app-eirq3.ondigitalocean.app';
 
 export const getUser = async (token: string) => {
   const config = {
