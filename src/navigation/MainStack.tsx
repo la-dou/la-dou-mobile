@@ -13,6 +13,7 @@ import PlaceOrder from '../screens/PlaceOrder';
 import OrderHistory from '../screens/OrderHistory';
 import UserDetails from '../screens/UserDetails';
 import ViewBids from '../screens/ViewBids';
+import PlaceBids from '../screens/PlaceBids';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -45,6 +46,7 @@ export type MainStackParamList = {
     };
   };
   ViewBids: undefined;
+  PlaceBids: undefined;
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
@@ -83,6 +85,7 @@ const MainNav = () => {
       <MainStack.Screen name="OrderHistory" component={OrderHistory} />
       <MainStack.Screen name="UserDetails" component={UserDetails} />
       <MainStack.Screen name='ViewBids' component={ViewBids} />
+      <MainStack.Screen name='PlaceBids' component={PlaceBids} />
     </MainStack.Navigator>
   );
 };
