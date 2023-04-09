@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://10.0.2.2:8000';
+const API_URL = 'https://goldfish-app-eirq3.ondigitalocean.app';
 
 export const sendEmailOtp = async (roll_no: Number) => {
   const config = {
