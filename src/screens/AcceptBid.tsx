@@ -30,7 +30,7 @@ const MiddleSection = ( {current_status, driver_name} ) => {
       </View>
     );
   }
-  else if (current_status === 'done')
+  else if (current_status === 'done' || current_status === 'delivery_success')
   {
     return (
       <View style={styles.textContainer}>
@@ -80,10 +80,19 @@ const BottomSection = ({current_status}) => {
   else if (current_status === 'delivery_success') {
     return (
       <>
-        <Text style={{color: 'white', fontSize: 24}}>Rate Driver</Text>
-        <AppButton>
-          Rate Driver
-        </AppButton>
+        <Card
+          onSubmitHandler={async (rating: any) => {
+            try {
+              // const res = await sendDriverRating(driver_roll, rating);
+              Alert.alert('Success', 'Rating submitted');
+              //TODO:  handle next step
+            } catch (e) {
+              Alert.alert('Error', 'Something went wrong');
+              //TODO:  handle next step
+            }
+          }}
+          children={0}
+        />
       </>
     );
   }
@@ -115,20 +124,23 @@ const BottomSection = ({current_status}) => {
 const AcceptBid = () => {
   const {colors} = useTheme();
   // const [pickup, setPickup] = React.useState('');\
-  const [orderStatus, setOrderStatus] = React.useState('');
-  const [driverName, setDriverName] = React.useState('');
+  // const [orderStatus, setOrderStatus] = React.useState('');
+  // const [driverName, setDriverName] = React.useState('');
 
-  React.useEffect(() => {
-    async function fetchOrderStatus() {
-      const response = await getOrderStatus();
-      setOrderStatus(response.status);
-      setDriverName(response.driver_name);
-    }
-    fetchOrderStatus();
-  }, []);
+  // React.useEffect(() => {
+  //   async function fetchOrderStatus() {
+  //     const response = await getOrderStatus();
+  //     setOrderStatus(response.status);
+  //     setDriverName(response.driver_name);
+  //   }
+  //   fetchOrderStatus();
+  // }, []);
 
-  // let current_stat = getOrderStatus();
-  console.log("Current status:", orderStatus)
+  // // let current_stat = getOrderStatus();
+  // console.log("Current status:", orderStatus)
+
+  let orderStatus = "delivery_success";
+  let driverName = "John Doe";
 
   return (
     <View style={styles.container}>
