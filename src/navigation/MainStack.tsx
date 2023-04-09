@@ -76,8 +76,7 @@ const MainNav = () => {
           header: () => <BackButton />,
         }}
       />
-      {/* <MainStack.Screen name="Profile" component={Profile} /> */}
-      <MainStack.Screen name="Profile" component={AcceptBid} />
+      <MainStack.Screen name="Profile" component={Profile} />
       <MainStack.Screen name="Search" component={Search} />
       <MainStack.Screen name="Rating" component={Rating} />
       {/* navigation.navigate('Rating', {driver_roll_number: 24100043}); */}
