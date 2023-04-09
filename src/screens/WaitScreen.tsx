@@ -16,7 +16,7 @@ const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
       try {
         const data = await getOrderStatusDriver(order_id);
         if (data.status === 'picking') {
-          navigation.replace('DriverProgress');
+          navigation.replace('DriverProgress', {order_id: order_id});
         }
         else if (data.status === 'denied') {
           Alert.alert("Your bid was rejected by the customer.");

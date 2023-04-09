@@ -14,9 +14,15 @@ import PrimaryTheme from '../theme/Primary';
 import AppButton from '../components/Button';
 import {MainStackParamList} from '../navigation/MainStack';
 
+type OrderStatus = {
+    orderFrom: string;
+    orderTo: string;
+    orderStatus: string;
+}
+
 type DriverProgressProps = NativeStackScreenProps<MainStackParamList, 'DriverProgress'>;
 
-const DriverProgress: React.FC<DriverProgressProps> = ({navigation}) => 
+const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => 
 {
   const [orderFrom, setOrderFrom] = React.useState('');
   const [orderTo, setOrderTo] = React.useState('');
@@ -27,6 +33,7 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation}) =>
 
   React.useEffect(() => {
     const loadOrderInfo = async () => {
+
       // TODO: @soomro, add the api call here to get the order info. This includes the orderFrom and orderTo, and the order status. set the order status to the respective state variables.
       setOrderFrom('Ingate');
       setOrderTo('Aquatic Center');
