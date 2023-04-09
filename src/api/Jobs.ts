@@ -45,3 +45,17 @@ export const getJobs = async () => {
   const response = await axios(config);
   return response.data;
 };
+
+export const postBid = async (jobId: string, bidAmount: Number) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'post',
+    url: `${API_URL}/driver/order/bid?order_id=${jobId}&amount=${bidAmount}`,
+    headers: {
+      // 'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}
