@@ -87,3 +87,17 @@ export const acceptBid = async (driver_roll_no: Number) => {
   const response = await axios(config);
   return response.data;
 }
+
+export const getOrderHistory = async () => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'get',
+    url: `${API_URL}/customer/order/getAllOrders`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}
