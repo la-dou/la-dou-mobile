@@ -13,6 +13,7 @@ import PlaceOrder from '../screens/PlaceOrder';
 import OrderHistory from '../screens/OrderHistory';
 import UserDetails from '../screens/UserDetails';
 import ViewBids from '../screens/ViewBids';
+import AcceptBid from '../screens/AcceptBid';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -75,7 +76,8 @@ const MainNav = () => {
           header: () => <BackButton />,
         }}
       />
-      <MainStack.Screen name="Profile" component={Profile} />
+      {/* <MainStack.Screen name="Profile" component={Profile} /> */}
+      <MainStack.Screen name="Profile" component={AcceptBid} />
       <MainStack.Screen name="Search" component={Search} />
       <MainStack.Screen name="Rating" component={Rating} />
       {/* navigation.navigate('Rating', {driver_roll_number: 24100043}); */}
