@@ -2,7 +2,7 @@ import {StyleSheet, Alert, View, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import AppButton from '../components/Button';
-import { getOrderStatus, cancelOrder } from '../api/orderStatus';
+import { getOrderStatus, updateOrderStatus } from '../api/orderStatus';
 import Card from '../components/Card';
 import {sendDriverRating} from '../api/Rating';
 import PrimaryTheme from '../theme/Primary';
@@ -61,12 +61,15 @@ const BottomSection = ({current_status, driver_roll_no}) => {
   if (current_status === 'picking') {
     return (
       <>
-        <AppButton primary>
+        <AppButton primary onPress={() => {
+        Alert.alert('Error', 'This feature is not yet available');
+        // TODO implement this
+      }}>
           Contact Driver
         </AppButton>
         <AppButton onPress={ async () => {
           try{
-            const res = await cancelOrder();
+            const res = await updateOrderStatus("cancelled");
             Alert.alert('Success', 'Order cancelled');
           } catch (e) {
             Alert.alert('Error', 'Something went wrong');
@@ -82,13 +85,19 @@ const BottomSection = ({current_status, driver_roll_no}) => {
       <>
         <Card
           onSubmitHandler={async (rating: any) => {
-            try {
+            try 
+            {
               const res = await sendDriverRating(driver_roll_no, rating);
               Alert.alert('Success', 'Rating submitted');
+
               //TODO:  handle next step
-            } catch (e) {
-              console.log(e);
+              await updateOrderStatus("done");
+            } 
+            catch (e) 
+            {
+              // console.log(e);
               Alert.alert('Error', 'Something went wrong');
+
               //TODO:  handle next step
             }
           }}
@@ -115,7 +124,10 @@ const BottomSection = ({current_status, driver_roll_no}) => {
   }
   else return (
     <>
-      <AppButton primary>
+      <AppButton primary onPress={() => {
+        Alert.alert('Error', 'This feature is not yet available');
+        // TODO implement this
+      }}>
         Contact Driver
       </AppButton>
     </>
@@ -135,18 +147,14 @@ const AcceptBid = () => {
         setCurrentStatus(res.order_status);
         setDriverName(res.driver_name);
         setDriverRoll(res.driver_roll_no);
+
+        console.log(res);
       } catch (e) {
         // console.log(e);
       }
-    }, 5000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  // let orderStatus = "picking";
-  // let driverName = "John Doe";
-  console.log("Current Status: ", current_status);
-  console.log("Driver Name: ", driver_name);
-  console.log("Driver Roll: ", driver_roll);
 
   return (
     <View style={styles.container}>
