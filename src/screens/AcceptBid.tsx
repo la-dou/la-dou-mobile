@@ -2,47 +2,54 @@ import {StyleSheet, Alert, View, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import AppButton from '../components/Button';
-import { getOrderStatus, updateOrderStatus } from '../api/orderStatus';
+import {getOrderStatus, updateOrderStatus} from '../api/orderStatus';
 import Card from '../components/Card';
 import {sendDriverRating} from '../api/Rating';
 import PrimaryTheme from '../theme/Primary';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParamList} from '../navigation/MainStack';
 
-const MiddleSection = ( {current_status, driver_name} ) => {
-  
+type MiddleSectionProps = {
+  current_status: string;
+  driver_name: string;
+}
+const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_name}) => {
   if (current_status === 'picking') {
     return (
       <View style={styles.textContainer}>
-        <Text style={styles.textStyles}>{driver_name} is on the way to pick up your order.</Text>
-      </View>
-    );
-  }
-  else if (current_status === 'orderPicked') {
-    return (
-      <View style={styles.textContainer}>
-        <Text style={styles.textStyles}>{driver_name} has picked up your order. They are on their way to you.</Text>
-      </View>
-    );
-  }
-  else if (current_status === 'orderArrived') {
-    return (
-      <View style={styles.textContainer}>
-        <Text style={styles.textStyles}>Your order is here. Please receive it.</Text>
-      </View>
-    );
-  }
-  else if (current_status === 'done' || current_status === 'delivery_success')
-  {
-    return (
-      <View style={styles.textContainer}>
-        <Text style={styles.textStyles}>Your order was successfully delivered. Thank you for using La-dou.
+        <Text style={styles.textStyles}>
+          {driver_name} is on the way to pick up your order.
         </Text>
       </View>
     );
-  }
-  else if (current_status === 'null')
-  {  
+  } else if (current_status === 'orderPicked') {
+    return (
+      <View style={styles.textContainer}>
+        <Text style={styles.textStyles}>
+          {driver_name} has picked up your order. They are on their way to you.
+        </Text>
+      </View>
+    );
+  } else if (current_status === 'orderArrived') {
+    return (
+      <View style={styles.textContainer}>
+        <Text style={styles.textStyles}>
+          Your order is here. Please receive it.
+        </Text>
+      </View>
+    );
+  } else if (
+    current_status === 'done' ||
+    current_status === 'delivery_success'
+  ) {
+    return (
+      <View style={styles.textContainer}>
+        <Text style={styles.textStyles}>
+          Your order was successfully delivered. Thank you for using La-dou.
+        </Text>
+      </View>
+    );
+  } else if (current_status === 'null') {
     return (
       <View style={styles.textContainer}>
         <Text style={styles.textStyles}>No Orders Yet.</Text>
@@ -51,95 +58,108 @@ const MiddleSection = ( {current_status, driver_name} ) => {
   }
   return (
     <View style={styles.textContainer}>
-      <Text style={styles.textStyles}>Waiting on confirmation. The order is pending.</Text>
+      <Text style={styles.textStyles}>
+        Waiting on confirmation. The order is pending.
+      </Text>
     </View>
   );
 };
 
-const BottomSection = ({current_status, driver_roll_no, navigation}) => {
-
+type BottomSectionProps = {
+  current_status: string;
+  driver_roll_no: Number;
+  navigation: any;
+}
+const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_roll_no, navigation}) => {
   if (current_status === 'picking') {
     return (
       <>
-        <AppButton primary onPress={() => {
-        Alert.alert('Error', 'This feature is not yet available');
-        // TODO implement this
-      }}>
+        <AppButton
+          primary
+          onPress={() => {
+            navigation.navigate('Chat', {
+              guest_roll_no: driver_roll_no,
+            });
+          }}>
           Contact Driver
         </AppButton>
-        <AppButton onPress={ async () => {
-          try{
-            const res = await updateOrderStatus("cancelled");
-            Alert.alert('Success', 'Order cancelled');
-            navigation.replace('Home');
-
-          } catch (e) {
-            Alert.alert('Error', 'Something went wrong');
-          }
-        } }>
+        <AppButton
+          onPress={async () => {
+            try {
+              const res = await updateOrderStatus('cancelled');
+              Alert.alert('Success', 'Order cancelled');
+              navigation.replace('Home');
+            } catch (e) {
+              Alert.alert('Error', 'Something went wrong');
+            }
+          }}>
           Cancel Order
         </AppButton>
       </>
     );
-  }
-  else if (current_status === 'delivery_success') {
+  } else if (current_status === 'delivery_success') {
     return (
       <>
         <Card
+          children={0}
           onSubmitHandler={async (rating: any) => {
-            try 
-            {
+            try {
               const res = await sendDriverRating(driver_roll_no, rating);
               Alert.alert('Success', 'Rating submitted');
 
               //TODO:  handle next step
-              await updateOrderStatus("done");
-            } 
-            catch (e) 
-            {
+              await updateOrderStatus('done');
+              navigation.replace('Home');
+            } catch (e) {
               // console.log(e);
               Alert.alert('Error', 'Something went wrong');
 
               //TODO:  handle next step
             }
           }}
-          children={0}
+          // onSubmitHandler={() => {}}
         />
       </>
     );
-  }
-  else if (current_status === 'done')
-  {
+  } else if (current_status === 'done') {
     return (
       <>
-        <Text style={{color: 'white', fontSize: 28}}>Thank you for your feedback.</Text>
+        <Text style={{color: 'white', fontSize: 28}}>
+          Thank you for your feedback.
+        </Text>
       </>
     );
-  }
-  else if (current_status === 'pending' || current_status === 'null' || !current_status)
-  {
+  } else if (
+    current_status === 'pending' ||
+    current_status === 'null' ||
+    !current_status
+  ) {
     return (
       <>
         <Text style={{color: 'white', fontSize: 28}}></Text>
       </>
     );
-  }
-  else return (
-    <>
-      <AppButton primary onPress={() => {
-        Alert.alert('Error', 'This feature is not yet available');
-        // TODO implement this
-        navigation.navigate('Chat', {driver_roll_no: driver_roll_no})
-      }}>
-        Contact Driver
-      </AppButton>
-    </>
-  );
+  } else
+    return (
+      <>
+        <AppButton
+          primary
+          onPress={() => {
+            Alert.alert('Error', 'This feature is not yet available');
+            // TODO implement this
+            navigation.navigate('Chat', {
+              guest_roll_no: Number(driver_roll_no),
+            });
+          }}>
+          Contact Driver
+        </AppButton>
+      </>
+    );
 };
 
 type AcceptBidProps = NativeStackScreenProps<MainStackParamList, 'AcceptBid'>;
 
-const AcceptBid: React.FC<AcceptBidProps>  = ({navigation}) => {
+const AcceptBid: React.FC<AcceptBidProps> = ({navigation}) => {
   const {colors} = useTheme();
   const [current_status, setCurrentStatus] = React.useState('null');
   const [driver_name, setDriverName] = React.useState('null');
@@ -164,8 +184,15 @@ const AcceptBid: React.FC<AcceptBidProps>  = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* {current_status ? <MiddleSection current_status={current_status} driver_name={driver_name}/> : <></>} */}
-      <MiddleSection current_status={current_status} driver_name={driver_name}/>
-      <BottomSection current_status={current_status} driver_roll_no={driver_roll} navigation={navigation} />
+      <MiddleSection
+        current_status={current_status}
+        driver_name={driver_name}
+      />
+      <BottomSection
+        current_status={current_status}
+        driver_roll_no={Number(driver_roll)}
+        navigation={navigation}
+      />
     </View>
   );
 };
@@ -193,9 +220,8 @@ const styles = StyleSheet.create({
     color: PrimaryTheme.colors.primary,
     fontFamily: 'Montserrat-Regular',
     lineHeight: 24,
-  }
+  },
 });
-
 
 // current_status === 'picking'
 // current_status === 'orderPicked'

@@ -15,7 +15,7 @@ export type CardProps = {
 const Card = (props: CardProps) => {
   const {colors} = PrimaryTheme;
   const [rating, setRating] = React.useState(0);
-  const [driverBid, setDriverBid] = React.useState(String(props.data.bid));
+  const [driverBid, setDriverBid] = React.useState(String(props.data?.bid));
   return (
     <View
       style={{

@@ -116,3 +116,30 @@ export const getOrderStatusDriver = async (order_id: string) => {
   return response.data;
 };
 
+export const getOrderStatus = async (order_id: string) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'get',
+    url: `${API_URL}/customer/order/getStatus/${order_id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}
+
+export const updateOrderStatusDriver = async (order_status: string, order_id: string) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'post',
+    url: `${API_URL}/driver/order/updateStatus/${order_status}/${order_id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}

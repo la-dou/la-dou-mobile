@@ -13,59 +13,95 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import PrimaryTheme from '../theme/Primary';
 import AppButton from '../components/Button';
 import {MainStackParamList} from '../navigation/MainStack';
+import {getOrderStatus, updateOrderStatusDriver} from '../api/Jobs';
 
 type OrderStatus = {
-    orderFrom: string;
-    orderTo: string;
-    orderStatus: string;
-}
+  orderFrom: string;
+  orderTo: string;
+  orderStatus: string;
+};
 
-type DriverProgressProps = NativeStackScreenProps<MainStackParamList, 'DriverProgress'>;
+type DriverProgressProps = NativeStackScreenProps<
+  MainStackParamList,
+  'DriverProgress'
+>;
 
-const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => 
-{
+const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
+  const {colors} = useTheme();
+
+  let {order_id} = route.params;
+
   const [orderFrom, setOrderFrom] = React.useState('');
   const [orderTo, setOrderTo] = React.useState('');
 
   const [orderPickedUp, setOrderPickedUp] = React.useState(false);
   const [orderArrived, setOrderArrived] = React.useState(false);
   const [orderDelivered, setOrderDelivered] = React.useState(false);
+  const [customerRollNo, setCustomerRollNo] = React.useState<Number>();
 
   React.useEffect(() => {
     const loadOrderInfo = async () => {
+      try {
+        const data = await getOrderStatus(order_id);
 
-      // TODO: @soomro, add the api call here to get the order info. This includes the orderFrom and orderTo, and the order status. set the order status to the respective state variables.
-      setOrderFrom('Ingate');
-      setOrderTo('Aquatic Center');
+        // TODO: @soomro, add the api call here to get the order info. This includes the orderFrom and orderTo, and the order status. set the order status to the respective state variables.
+        setOrderFrom(data.orderFrom);
+        setOrderTo(data.orderTo);
+        setOrderPickedUp(data.orderStatus === 'orderPicked');
+        setOrderArrived(data.orderStatus === 'orderArrived');
+        setOrderDelivered(data.orderStatus === 'delivery_success');
+        setCustomerRollNo(data.customerRollNo);
+      } catch (error) {
+        console.log(error);
+      }
     };
     loadOrderInfo();
   }, []);
 
   // TODO: Please populate the following functions to update the order status. these are called when the user clicks on the buttons.
-  const UpdateOrderPickedUp = async (status: boolean) => {setOrderPickedUp(status)};
-  const UpdateOrderArrived = async (status: boolean) => {setOrderArrived(status)};
-  const UpdateOrderDelivered = async (status: boolean) => {setOrderDelivered(status)};
+  const UpdateOrderPickedUp = async (status: boolean) => {
+    try {
+      if (status) {
+        const data = await updateOrderStatusDriver(order_id, 'orderPicked');
+      }
+      setOrderPickedUp(status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const UpdateOrderArrived = async (status: boolean) => {
+    try {
+      if (status) {
+        const data = await updateOrderStatusDriver(order_id, 'orderArrived');
+      }
+      setOrderArrived(status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const UpdateOrderDelivered = async (status: boolean) => {
+    try {
+      if (status) {
+        const data = await updateOrderStatusDriver(order_id, 'delivery_success');
+      }
+      setOrderDelivered(status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
         {/* text box for email and number */}
-        <Text style={styles.titleText}>
-          {orderFrom}
-        </Text>
-        <Text style={styles.titleText}>
-          to
-        </Text>
-        <Text style={styles.titleText}>
-          {orderTo}
-        </Text>
+        <Text style={styles.titleText}>{orderFrom}</Text>
+        <Text style={styles.titleText}>to</Text>
+        <Text style={styles.titleText}>{orderTo}</Text>
 
         {/* flex box: row for mobile and verify button */}
         {true && (
           <View style={styles.verificationContainer}>
-            <Text style={styles.otpInputContainer}>
-              Picked-up
-            </Text>
+            <Text style={styles.otpInputContainer}>Picked-up</Text>
             <View style={styles.buttonCheckMarkContainer}>
               {orderPickedUp ? (
                 <Image
@@ -88,14 +124,10 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) =>
         {/* flex box: row for email and verify button */}
         {true && (
           <View style={styles.verificationContainer}>
-            <Text style={styles.otpInputContainer}>
-              Arrived
-            </Text>
+            <Text style={styles.otpInputContainer}>Arrived</Text>
             <View style={styles.buttonCheckMarkContainer}>
               {!orderPickedUp ? (
-                <Text style={styles.pendingEllipsis}>
-                  ...
-                </Text>
+                <Text style={styles.pendingEllipsis}>...</Text>
               ) : orderArrived ? (
                 <Image
                   style={styles.checkMark}
@@ -116,14 +148,10 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) =>
         {/* flex box: row for email and verify button */}
         {true && (
           <View style={styles.verificationContainer}>
-            <Text style={styles.otpInputContainer}>
-              Delivered
-            </Text>
+            <Text style={styles.otpInputContainer}>Delivered</Text>
             <View style={styles.buttonCheckMarkContainer}>
               {!orderArrived ? (
-                <Text style={styles.pendingEllipsis}>
-                 ...
-               </Text>
+                <Text style={styles.pendingEllipsis}>...</Text>
               ) : orderDelivered ? (
                 <Image
                   style={styles.checkMark}
@@ -144,7 +172,8 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) =>
         <AppButton
           primary
           onPress={() => {
-            Alert.alert('Contact Customer');
+            customerRollNo ? 
+            navigation.navigate('Chat', {guest_roll_no: customerRollNo}) : null;
           }}>
           Contact Customer
         </AppButton>
@@ -157,8 +186,8 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) =>
         </AppButton>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default DriverProgress;
 

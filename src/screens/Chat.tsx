@@ -68,7 +68,7 @@ const Chat: React.FC<ChatProps> = ({route}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <BackButton style={styles.BackButton} />
-        <Text style={styles.name}>Saad Mehmoon</Text>
+        <Text style={styles.name}>{String(route.params?.guest_roll_no)}</Text>
         <Image
           source={require('../assets/images/call-icon.png')}
           style={styles.callIcon}
