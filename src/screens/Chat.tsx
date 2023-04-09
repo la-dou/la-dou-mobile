@@ -14,13 +14,13 @@ import TextBubble from '../components/TextBubble';
 import {useRecoilState} from 'recoil';
 import {authToken as authTokenATom} from '../atoms';
 
-type messages = {
+type Messages = {
   type: 'sent' | 'received';
   text: string;
 };
 
 const Chat = () => {
-  const [messages, setMessages] = React.useState<messages[]>([]);
+  const [messages, setMessages] = React.useState<Messages[]>([]);
   const [message, setMessage] = React.useState('');
   const [webSocket, setWebSocket] = React.useState<WebSocket | null>(null);
   const [authToken, setUserDetails] = useRecoilState(authTokenATom);
