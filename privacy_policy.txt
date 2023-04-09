@@ -1,41 +1,40 @@
 PRIVACY POLICY
 
+
 Welcome to La-dou. We at La-dou put your comfort and satisfaction at the forefront, and are committed to protecting your privacy. This privacy
 statement describes our privacy practices, the personal data we collect, how we process it, and why we collect and process it.
 
 This Privacy Policy applies to any of the Services provided by us. Our policy and practices will act in compliance with the local laws. If there is
 inconsistency between the policy and the local law, then we will act in accordance with the local law to the extent of the inconsistency.
 
+Our application is directed towards students of Lahore University of Management Sciences (LUMS), and so our privacy policy is formed accordingly.
+
+
 Information We Collect
 
 We may collect the following information when you use our application:
 
-Personal Information: Your name, email address, phone number, and other personal information you provide to us.
-Usage Information: Information about your use of our application, such as your search queries, preferences, and browsing history.
-Device Information: Information about your device, such as your device type, operating system, and IP address.
+Personal Information: Your name, email address, phone number, your LUMS roll number and other personal information you provide to us.
+Usage Information: Information about your use of our application, such as your search queries, preferences, browsing history, and the orders you place using our application, and the ratings you give to your Drivers as a Customer or Customers as a Driver.
+
 
 How We Use Your Information
 
 We may use your information for the following purposes:
-To provide and improve our application and services.
+To provide and improve our application and services, for example we may disable accounts that get low ratings very often.
 To communicate with you about our application and services.
+We may add new features to improve your experience using our application.
 To personalize your experience using our application.
 To analyze how you use our application.
 
-We do not share your information with third-parties.
+We DO NOT share your information with third-parties.
 
-Your Choices
-
-You may choose to opt-out of certain data collection and use by adjusting your device settings. However, this may impact your ability to use our application.
-
-Security
-
-We take [XYZ] measures to protect your personal information from unauthorized access, use, or disclosure.
 
 Changes to this Privacy Policy
 
 We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on our application.
 
+
 Contact Us
 
-If you have any questions or concerns about our Privacy Policy, please contact us at [Contact Information].
+If you have any questions or concerns about our Privacy Policy, please contact us at se.ladou.delivery@gmail.com.
