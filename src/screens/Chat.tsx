@@ -13,13 +13,16 @@ import BackButton from '../components/BackButton';
 import TextBubble from '../components/TextBubble';
 import {useRecoilState} from 'recoil';
 import {authToken as authTokenATom} from '../atoms';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {MainStackParamList} from '../navigation/MainStack';
 
 type Messages = {
   type: 'sent' | 'received';
   text: string;
 };
 
-const Chat = () => {
+type ChatProps = NativeStackScreenProps<MainStackParamList, 'Chat'>;
+const Chat: React.FC<ChatProps> = ({route}) => {
   const [messages, setMessages] = React.useState<Messages[]>([]);
   const [message, setMessage] = React.useState('');
   const [webSocket, setWebSocket] = React.useState<WebSocket | null>(null);
@@ -34,7 +37,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    const toSendTo = 24100116;
+    const toSendTo = route.params?.guest_roll_no;
     const ws = new WebSocket(
       `ws://10.0.2.2:8000/chat/${authToken}/${toSendTo}`,
     );

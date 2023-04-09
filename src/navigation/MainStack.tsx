@@ -50,7 +50,9 @@ export type MainStackParamList = {
   ViewBids: undefined;
   PlaceBids: undefined;
   WaitScreen: undefined;
-  Chat: undefined
+  Chat: {
+    guest_roll_no: Number;
+  }
 };
 
 const MainStack = createNativeStackNavigator<MainStackParamList>();
