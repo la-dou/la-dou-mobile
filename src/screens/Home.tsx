@@ -145,11 +145,11 @@ const Home: React.FC<LoginProps> = ({navigation}) => {
               text={role === 'customer' ? 'Place Orders' : 'Place Bids'}
               onPress={() => {
                 if (role === 'customer') {
-                navigation.navigate('PlaceOrder');
+                  navigation.navigate('PlaceOrder');
                 } else {
-                navigation.navigate('PlaceBids');
+                  navigation.navigate('PlaceBids');
                 }
-              }} 
+              }}
             />
             <MenuButton
               primary

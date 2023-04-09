@@ -17,7 +17,7 @@ type Bid = {
   bid: string;
 };
 
-type ViewBidsProps = NativeStackScreenProps<MainStackParamList, 'PlaceBids'>;
+type ViewBidsProps = NativeStackScreenProps<MainStackParamList, 'ViewBids'>;
 
 const ViewBids: React.FC<ViewBidsProps> = ({navigation}) => {
   const {colors} = useTheme();
