@@ -15,6 +15,7 @@ import {useRecoilState} from 'recoil';
 import {authToken as authTokenATom} from '../atoms';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParamList} from '../navigation/MainStack';
+import {WSS_URL} from '../utils/constants';
 
 type Messages = {
   type: 'sent' | 'received';
@@ -38,9 +39,7 @@ const Chat: React.FC<ChatProps> = ({route}) => {
 
   useEffect(() => {
     const toSendTo = route.params?.guest_roll_no;
-    const ws = new WebSocket(
-      `ws://10.0.2.2:8000/chat/${authToken}/${toSendTo}`,
-    );
+    const ws = new WebSocket(`${WSS_URL}/chat/${authToken}/${toSendTo}`);
     setWebSocket(ws);
 
     ws.onopen = () => {
@@ -59,6 +58,7 @@ const Chat: React.FC<ChatProps> = ({route}) => {
     ws.onclose = e => {
       console.log(e.code, e.reason);
     };
+    console.log('here');
 
     // close the connection when the page is closed
     return () => ws.close();

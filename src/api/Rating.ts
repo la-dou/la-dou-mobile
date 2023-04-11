@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'https://goldfish-app-eirq3.ondigitalocean.app';
+import {HTTPS_URL as API_URL} from '../utils/constants';
 
 export const sendDriverRating = async (roll_no: Number, rating: Number) => {
   const config = {

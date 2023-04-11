@@ -1,7 +1,6 @@
 import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
-
-const API_URL = 'https://goldfish-app-eirq3.ondigitalocean.app';
+import {HTTPS_URL as API_URL} from '../utils/constants';
 
 export const adminGetUsers = async (search: string) => {
   const token = await EncryptedStorage.getItem('token');
@@ -35,7 +34,7 @@ export const toggleDriver = async (rollNumber: Number) => {
   // console.log(response.data);
   // console.log(typeof response.data);
   return response.data;
-}
+};
 
 export const toggleCustomer = async (rollNumber: Number) => {
   const token = await EncryptedStorage.getItem('token');
@@ -52,4 +51,4 @@ export const toggleCustomer = async (rollNumber: Number) => {
   // console.log(response.data);
   // console.log(typeof response.data);
   return response.data;
-}
+};
