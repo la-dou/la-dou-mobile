@@ -4,7 +4,7 @@ import {MainStackParamList} from '../navigation/MainStack';
 import PrimaryTheme from '../theme/Primary';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {getOrderStatusDriver} from '../api/Jobs';
+import {getInProgressOrderStatus} from '../api/Jobs';
 
 type WaitScreenProps = NativeStackScreenProps<MainStackParamList, 'WaitScreen'>;
 const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
@@ -14,7 +14,7 @@ const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
   React.useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const data = await getOrderStatusDriver(order_id);
+        const data = await getInProgressOrderStatus();
         if (data.status === 'picking') {
           navigation.replace('DriverProgress', {order_id: order_id});
         }

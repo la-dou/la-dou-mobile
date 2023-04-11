@@ -9,8 +9,8 @@ import AppButton from '../components/Button';
 import Card from '../components/Card';
 import HrText from '../components/HrText';
 import {getBids, acceptBid} from '../api/Jobs';
-import { MainStackParamList } from '../navigation/MainStack';
-import { updateOrderStatus } from '../api/orderStatus';
+import {MainStackParamList} from '../navigation/MainStack';
+import {cancelInProgressOrder} from '../api/Jobs';
 
 type Bid = {
   driver_roll_no: Number;
@@ -29,7 +29,6 @@ const ViewBids: React.FC<ViewBidsProps> = ({navigation}) => {
       try {
         const data = await getBids();
         setBids(data);
-        
       } catch (err) {
         console.log(err);
       }
@@ -62,18 +61,18 @@ const ViewBids: React.FC<ViewBidsProps> = ({navigation}) => {
           );
         })}
       </ScrollView>
-      <AppButton onPress={ async () => {
-          try{
-            const res = await updateOrderStatus("cancelled");
+      <AppButton
+        onPress={async () => {
+          try {
+            await cancelInProgressOrder();
             Alert.alert('Success', 'Order cancelled');
             navigation.replace('Home');
-
           } catch (e) {
             Alert.alert('Error', 'Something went wrong');
           }
-        } }>
-          Cancel Order
-        </AppButton>
+        }}>
+        Cancel Order
+      </AppButton>
     </View>
   );
 };

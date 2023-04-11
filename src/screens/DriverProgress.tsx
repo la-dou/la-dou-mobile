@@ -13,7 +13,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import PrimaryTheme from '../theme/Primary';
 import AppButton from '../components/Button';
 import {MainStackParamList} from '../navigation/MainStack';
-import {getOrderStatus, updateOrderStatusDriver} from '../api/Jobs';
+import {cancelInProgressOrder, getInProgressOrderStatus, updateInProgressOrderStatus} from '../api/Jobs';
 
 type OrderStatus = {
   orderFrom: string;
@@ -42,15 +42,15 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
   React.useEffect(() => {
     const loadOrderInfo = async () => {
       try {
-        const data = await getOrderStatus(order_id);
+        const data = await getInProgressOrderStatus();
 
         // TODO: @soomro, add the api call here to get the order info. This includes the orderFrom and orderTo, and the order status. set the order status to the respective state variables.
-        setOrderFrom(data.orderFrom);
-        setOrderTo(data.orderTo);
-        setOrderPickedUp(data.orderStatus === 'orderPicked');
-        setOrderArrived(data.orderStatus === 'orderArrived');
-        setOrderDelivered(data.orderStatus === 'delivery_success');
-        setCustomerRollNo(data.customerRollNo);
+        setOrderFrom(data.deliver_from);
+        setOrderTo(data.deliver_to);
+        setOrderPickedUp(data.status === 'picked');
+        setOrderArrived(data.status === 'arrived');
+        setOrderDelivered(data.status === 'delivered');
+        setCustomerRollNo(data.assigned_to);
       } catch (error) {
         console.log(error);
       }
@@ -62,7 +62,7 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
   const UpdateOrderPickedUp = async (status: boolean) => {
     try {
       if (status) {
-        const data = await updateOrderStatusDriver(order_id, 'orderPicked');
+        const data = await updateInProgressOrderStatus('picked');
       }
       setOrderPickedUp(status);
     } catch (error) {
@@ -72,7 +72,7 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
   const UpdateOrderArrived = async (status: boolean) => {
     try {
       if (status) {
-        const data = await updateOrderStatusDriver(order_id, 'orderArrived');
+        const data = await updateInProgressOrderStatus('arrived');
       }
       setOrderArrived(status);
     } catch (error) {
@@ -82,7 +82,7 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
   const UpdateOrderDelivered = async (status: boolean) => {
     try {
       if (status) {
-        const data = await updateOrderStatusDriver(order_id, 'delivery_success');
+        const data = await updateInProgressOrderStatus('delivered');
       }
       setOrderDelivered(status);
     } catch (error) {
@@ -179,8 +179,14 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
         </AppButton>
         <AppButton
           inactive={orderPickedUp}
-          onPress={() => {
-            Alert.alert('Cancel Order');
+          onPress={async () => {
+            try {
+              const data = await cancelInProgressOrder();
+              Alert.alert('Cancel Order');
+            } catch (error) {
+              console.log(error);
+              Alert.alert('Error', 'Could not cancel order');
+            }
           }}>
           Cancel Order
         </AppButton>

@@ -2,7 +2,7 @@ import {StyleSheet, Alert, View, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import AppButton from '../components/Button';
-import {getOrderStatus, updateOrderStatus} from '../api/orderStatus';
+import {cancelInProgressOrder, getInProgressOrderStatus, updateInProgressOrderStatus} from '../api/Jobs';
 import Card from '../components/Card';
 import {sendDriverRating} from '../api/Rating';
 import PrimaryTheme from '../theme/Primary';
@@ -14,7 +14,7 @@ type MiddleSectionProps = {
   driver_name: string;
 }
 const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_name}) => {
-  if (current_status === 'picking') {
+  if (current_status === 'assigned') {
     return (
       <View style={styles.textContainer}>
         <Text style={styles.textStyles}>
@@ -22,7 +22,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_nam
         </Text>
       </View>
     );
-  } else if (current_status === 'orderPicked') {
+  } else if (current_status === 'picked') {
     return (
       <View style={styles.textContainer}>
         <Text style={styles.textStyles}>
@@ -30,7 +30,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_nam
         </Text>
       </View>
     );
-  } else if (current_status === 'orderArrived') {
+  } else if (current_status === 'arrived') {
     return (
       <View style={styles.textContainer}>
         <Text style={styles.textStyles}>
@@ -40,7 +40,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_nam
     );
   } else if (
     current_status === 'done' ||
-    current_status === 'delivery_success'
+    current_status === 'delivered'
   ) {
     return (
       <View style={styles.textContainer}>
@@ -71,7 +71,7 @@ type BottomSectionProps = {
   navigation: any;
 }
 const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_roll_no, navigation}) => {
-  if (current_status === 'picking') {
+  if (current_status === 'assigned') {
     return (
       <>
         <AppButton
@@ -86,7 +86,7 @@ const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_rol
         <AppButton
           onPress={async () => {
             try {
-              const res = await updateOrderStatus('cancelled');
+              await cancelInProgressOrder();
               Alert.alert('Success', 'Order cancelled');
               navigation.replace('Home');
             } catch (e) {
@@ -97,7 +97,7 @@ const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_rol
         </AppButton>
       </>
     );
-  } else if (current_status === 'delivery_success') {
+  } else if (current_status === 'delivered') {
     return (
       <>
         <Card
@@ -108,7 +108,7 @@ const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_rol
               Alert.alert('Success', 'Rating submitted');
 
               //TODO:  handle next step
-              await updateOrderStatus('done');
+              // await updateInProgressOrderStatus('done');
               navigation.replace('Home');
             } catch (e) {
               // console.log(e);
@@ -168,10 +168,10 @@ const AcceptBid: React.FC<AcceptBidProps> = ({navigation}) => {
   React.useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await getOrderStatus();
-        setCurrentStatus(res.order_status);
-        setDriverName(res.driver_name);
-        setDriverRoll(res.driver_roll_no);
+        const res = await getInProgressOrderStatus();
+        setCurrentStatus(res.status);
+        setDriverName(res.assignee_name);
+        setDriverRoll(res.assigned_to);
 
         console.log(res);
       } catch (e) {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {HTTPS_URL as API_URL} from '../utils/constants';
+import { HTTPS_URL as API_URL } from '../utils/constants';
 
 export const postJob = async (
   pickup: string,
@@ -12,7 +12,7 @@ export const postJob = async (
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'post',
-    url: `${API_URL}/customer/order/create`,
+    url: `${API_URL}/orders/customer/create`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ export const getJobs = async () => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'get',
-    url: `${API_URL}/driver/order/viewall`,
+    url: `${API_URL}/orders/pending`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ export const postBid = async (jobId: string, bidAmount: Number) => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'post',
-    url: `${API_URL}/driver/order/bid?order_id=${jobId}&amount=${bidAmount}`,
+    url: `${API_URL}/orders/bid?order_id=${jobId}&amount=${bidAmount}`,
     headers: {
       // 'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ export const getBids = async () => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'get',
-    url: `${API_URL}/customer/order/viewbids`,
+    url: `${API_URL}/orders/inprogress/bids/view`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ export const acceptBid = async (driver_roll_no: Number) => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'post',
-    url: `${API_URL}/customer/order/acceptbid?driver_roll_no=${driver_roll_no}`,
+    url: `${API_URL}/orders/inprogress/bid/accept?driver_roll_no=${driver_roll_no}`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ export const getOrderHistory = async () => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'get',
-    url: `${API_URL}/customer/order/getAllOrders`,
+    url: `${API_URL}/orders/customer/getAllOrders`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -101,25 +101,11 @@ export const getOrderHistory = async () => {
   return response.data;
 };
 
-export const getOrderStatusDriver = async (order_id: string) => {
+export const getInProgressOrderStatus = async () => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'get',
-    url: `${API_URL}/driver/order/getStatus?order_id=${order_id}`,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await axios(config);
-  return response.data;
-};
-
-export const getOrderStatus = async (order_id: string) => {
-  const token = await EncryptedStorage.getItem('token');
-  const config = {
-    method: 'get',
-    url: `${API_URL}/customer/order/getStatus/${order_id}`,
+    url: `${API_URL}/orders/inprogress`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -129,11 +115,12 @@ export const getOrderStatus = async (order_id: string) => {
   return response.data;
 }
 
-export const updateOrderStatusDriver = async (order_status: string, order_id: string) => {
+
+export const updateInProgressOrderStatus = async (order_status: string) => {
   const token = await EncryptedStorage.getItem('token');
   const config = {
     method: 'post',
-    url: `${API_URL}/driver/order/updateStatus/${order_status}/${order_id}`,
+    url: `${API_URL}/orders/inprogress/update?status=${order_status}`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -142,3 +129,18 @@ export const updateOrderStatusDriver = async (order_status: string, order_id: st
   const response = await axios(config);
   return response.data;
 }
+
+export const cancelInProgressOrder = async () => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'post',
+    url: `${API_URL}/orders/inprogress/cancel`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}
+
