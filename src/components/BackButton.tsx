@@ -9,15 +9,22 @@ export type BackButtonProps = {
 const BackButton: React.FC<BackButtonProps> = ({style}) => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.goBack();
+      }}
+      style={{
+        position: 'absolute',
+        top: 30,
+        left: 20,
+        width: 32,
+        height: 32,
+      }}>
       <Image
         style={[
           {
-            position: 'absolute',
             width: 24,
             height: 24,
-            top: 30,
-            left: 20,
           },
           style,
         ]}

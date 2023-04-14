@@ -92,38 +92,39 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
 
         {/* flex box: row for mobile and verify button */}
         {!route.params.phone_verified && route.params.path !== 'ForgetPassword' && (
-          <View style={styles.verificationContainer}>
-            <AppTextInput
-              placeholder="Mobile"
-              value={phoneOTP}
-              onChangeText={setPhoneOTP}
-              maxLength={4}
-              keyboardType="numeric"
-              containerStyle={styles.otpInputContainer}
-            />
-            <View style={styles.buttonCheckMarkContainer}>
-              {phoneLoading ? (
-                <ActivityIndicator
-                  size={24}
-                  color={colors.primary}
-                  style={styles.checkMark}
-                />
-              ) : phoneVerified ? (
-                <Image
-                  style={styles.checkMark}
-                  source={require('../assets/images/checkMark.png')}
-                />
-              ) : (
-                <AppButton
-                  primary
-                  onPress={() => {
-                    phoneSent ? setPhoneVerified(true) : null;
-                  }}>
-                  {phoneSent ? 'Verify' : 'Send'}
-                </AppButton>
-              )}
-            </View>
-          </View>
+          // <View style={styles.verificationContainer}>
+          //   <AppTextInput
+          //     placeholder="Mobile"
+          //     value={phoneOTP}
+          //     onChangeText={setPhoneOTP}
+          //     maxLength={4}
+          //     keyboardType="numeric"
+          //     containerStyle={styles.otpInputContainer}
+          //   />
+          //   <View style={styles.buttonCheckMarkContainer}>
+          //     {phoneLoading ? (
+          //       <ActivityIndicator
+          //         size={24}
+          //         color={colors.primary}
+          //         style={styles.checkMark}
+          //       />
+          //     ) : phoneVerified ? (
+          //       <Image
+          //         style={styles.checkMark}
+          //         source={require('../assets/images/checkMark.png')}
+          //       />
+          //     ) : (
+          //       <AppButton
+          //         primary
+          //         onPress={() => {
+          //           phoneSent ? setPhoneVerified(true) : null;
+          //         }}>
+          //         {phoneSent ? 'Verify' : 'Send'}
+          //       </AppButton>
+          //     )}
+          //   </View>
+          // </View>
+          null
         )}
 
         {/* flex box: row for email and verify button */}

@@ -13,9 +13,14 @@ import BackButton from '../components/BackButton';
 export type AuthStackParamList = {
   Login: undefined;
   Signup: undefined;
-  Otp: {rollNumber: Number; path: string, phone_verified?: boolean, email_verified?: boolean};
+  Otp: {
+    rollNumber: Number;
+    path: string;
+    phone_verified?: boolean;
+    email_verified?: boolean;
+  };
   ForgetPassword: undefined;
-  NewPassword: {rollNumber: Number, token: string};
+  NewPassword: {rollNumber: Number; token: string};
 };
 
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
