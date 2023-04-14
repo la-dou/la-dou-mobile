@@ -1,19 +1,27 @@
 import {StyleSheet, Alert, View, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import {useRecoilState} from 'recoil';
 import AppButton from '../components/Button';
-import {cancelInProgressOrder, getInProgressOrderStatus, updateInProgressOrderStatus} from '../api/Jobs';
+import {
+  cancelInProgressOrder,
+  getOrderStatus,
+} from '../api/Jobs';
 import Card from '../components/Card';
 import {sendDriverRating} from '../api/Rating';
 import PrimaryTheme from '../theme/Primary';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParamList} from '../navigation/MainStack';
+import {inProgressOrderId as inProgressOrderIdState} from '../atoms';
 
 type MiddleSectionProps = {
   current_status: string;
   driver_name: string;
-}
-const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_name}) => {
+};
+const MiddleSection: React.FC<MiddleSectionProps> = ({
+  current_status,
+  driver_name,
+}) => {
   if (current_status === 'assigned') {
     return (
       <View style={styles.textContainer}>
@@ -38,10 +46,7 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({current_status, driver_nam
         </Text>
       </View>
     );
-  } else if (
-    current_status === 'done' ||
-    current_status === 'delivered'
-  ) {
+  } else if (current_status === 'done' || current_status === 'delivered') {
     return (
       <View style={styles.textContainer}>
         <Text style={styles.textStyles}>
@@ -69,8 +74,12 @@ type BottomSectionProps = {
   current_status: string;
   driver_roll_no: Number;
   navigation: any;
-}
-const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_roll_no, navigation}) => {
+};
+const BottomSection: React.FC<BottomSectionProps> = ({
+  current_status,
+  driver_roll_no,
+  navigation,
+}) => {
   if (current_status === 'assigned') {
     return (
       <>
@@ -145,8 +154,6 @@ const BottomSection: React.FC<BottomSectionProps> = ({current_status, driver_rol
         <AppButton
           primary
           onPress={() => {
-            Alert.alert('Error', 'This feature is not yet available');
-            // TODO implement this
             navigation.navigate('Chat', {
               guest_roll_no: Number(driver_roll_no),
             });
@@ -164,16 +171,23 @@ const AcceptBid: React.FC<AcceptBidProps> = ({navigation}) => {
   const [current_status, setCurrentStatus] = React.useState('null');
   const [driver_name, setDriverName] = React.useState('null');
   const [driver_roll, setDriverRoll] = React.useState('null');
+  const [inProgressOrderId, setInProgressOrderId] = useRecoilState(
+    inProgressOrderIdState,
+  );
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await getInProgressOrderStatus();
-        setCurrentStatus(res.status);
-        setDriverName(res.assignee_name);
-        setDriverRoll(res.assigned_to);
-
-        console.log(res);
+        const data = await getOrderStatus(inProgressOrderId);
+        console.log("AcceptBidScreen:", data, inProgressOrderId)
+        if (data.status in ['delivered', 'done', 'cancelled']) {
+          clearInterval(interval);
+          setInProgressOrderId(null);
+        }
+        setCurrentStatus(data.status);
+        setDriverName(data.assignee_name);
+        setDriverRoll(data.assigned_to);
+        console.log(data);
       } catch (e) {
         console.log(e);
       }

@@ -25,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
         width: '90%',
         marginVertical: 10,
         opacity: inactive ? 0.3 : 1,
+        alignSelf: 'center',
       }}
       onPress={onPress}>
       <View style={{flex: 1, justifyContent: 'center'}}>

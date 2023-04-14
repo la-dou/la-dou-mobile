@@ -9,14 +9,15 @@ import {getInProgressOrderStatus} from '../api/Jobs';
 type WaitScreenProps = NativeStackScreenProps<MainStackParamList, 'WaitScreen'>;
 const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
 
-  let {order_id} = route.params;
+  let {id} = route.params;
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
       try {
         const data = await getInProgressOrderStatus();
-        if (data.status === 'picking') {
-          navigation.replace('DriverProgress', {order_id: order_id});
+        console.log("waiting screen api response:", data)
+        if (data.status === 'assigned') {
+          navigation.replace('DriverProgress', {id: id});
         }
         else if (data.status === 'denied') {
           Alert.alert("Your bid was rejected by the customer.");
@@ -28,6 +29,8 @@ const WaitScreen: React.FC<WaitScreenProps> = ({navigation, route}) => {
         }
       } catch (err) {
         console.log(err);
+        // Alert.alert("An error occurred while fetching the order status.");
+        // navigation.replace("Home");
       }
     }, 500);
     return () => clearInterval(interval);

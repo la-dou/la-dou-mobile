@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
+import {StyleSheet, View, Text, Image, Alert} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -13,7 +6,11 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import PrimaryTheme from '../theme/Primary';
 import AppButton from '../components/Button';
 import {MainStackParamList} from '../navigation/MainStack';
-import {cancelInProgressOrder, getInProgressOrderStatus, updateInProgressOrderStatus} from '../api/Jobs';
+import {
+  cancelInProgressOrder,
+  getOrderStatus,
+  updateInProgressOrderStatus,
+} from '../api/Jobs';
 
 type OrderStatus = {
   orderFrom: string;
@@ -29,7 +26,7 @@ type DriverProgressProps = NativeStackScreenProps<
 const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
   const {colors} = useTheme();
 
-  let {order_id} = route.params;
+  let {id} = route.params;
 
   const [orderFrom, setOrderFrom] = React.useState('');
   const [orderTo, setOrderTo] = React.useState('');
@@ -42,7 +39,8 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
   React.useEffect(() => {
     const loadOrderInfo = async () => {
       try {
-        const data = await getInProgressOrderStatus();
+        const data = await getOrderStatus(route.params.id);
+        console.log("Driver Progress Screen API Response: ", data, orderTo, orderFrom)
 
         // TODO: @soomro, add the api call here to get the order info. This includes the orderFrom and orderTo, and the order status. set the order status to the respective state variables.
         setOrderFrom(data.deliver_from);
@@ -52,7 +50,7 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
         setOrderDelivered(data.status === 'delivered');
         setCustomerRollNo(data.assigned_to);
       } catch (error) {
-        console.log(error);
+        console.log("Driver Progress Screen API:", error);
       }
     };
     loadOrderInfo();
@@ -172,8 +170,9 @@ const DriverProgress: React.FC<DriverProgressProps> = ({navigation, route}) => {
         <AppButton
           primary
           onPress={() => {
-            customerRollNo ? 
-            navigation.navigate('Chat', {guest_roll_no: customerRollNo}) : null;
+            customerRollNo
+              ? navigation.navigate('Chat', {guest_roll_no: customerRollNo})
+              : null;
           }}>
           Contact Customer
         </AppButton>

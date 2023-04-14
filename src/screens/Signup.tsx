@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -42,49 +42,51 @@ const Signup: React.FC<SignupProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Logo size={24} />
+        <Logo size={'70%'} />
       </View>
       <View style={styles.formContainer}>
-        <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
-          Sign Up
-        </HrText>
-        <AppTextInput
-          placeholder="Full Name"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-        <AppTextInput
-          placeholder="Roll Number"
-          keyboardType="numeric"
-          value={rollNumber}
-          onChangeText={setRollNumber}
-        />
-        <AppTextInput
-          secureTextEntry
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-        />
-        <AppTextInput
-          placeholder="Gender"
-          value={gender}
-          onChangeText={setGender}
-        />
-        <AppTextInput
-          placeholder="Phone Number"
-          keyboardType="numeric"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-        />
-        <Button primary onPress={handleSubmit}>
-          Continue
-        </Button>
-        <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
-          or
-        </HrText>
-        <Button primary onPress={() => navigation.replace('Login')}>
-          Login
-        </Button>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
+            Sign Up
+          </HrText>
+          <AppTextInput
+            placeholder="Full Name"
+            value={fullName}
+            onChangeText={setFullName}
+          />
+          <AppTextInput
+            placeholder="Roll Number"
+            keyboardType="numeric"
+            value={rollNumber}
+            onChangeText={setRollNumber}
+          />
+          <AppTextInput
+            secureTextEntry
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+          />
+          <AppTextInput
+            placeholder="Gender"
+            value={gender}
+            onChangeText={setGender}
+          />
+          <AppTextInput
+            placeholder="Phone Number"
+            keyboardType="numeric"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+          />
+          <Button primary onPress={handleSubmit}>
+            Continue
+          </Button>
+          <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
+            or
+          </HrText>
+          <Button primary onPress={() => navigation.replace('Login')}>
+            Login
+          </Button>
+        </ScrollView>
       </View>
     </View>
   );
@@ -98,13 +100,11 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   logoContainer: {
-    flex: 0.5,
+    flex: 0.3,
     alignItems: 'center',
     justifyContent: 'center',
   },
   formContainer: {
-    flex: 1.5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 0.7,
   },
 });

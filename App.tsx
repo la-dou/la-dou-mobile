@@ -16,6 +16,9 @@ import {
   StyleSheet,
   useColorScheme,
   PermissionsAndroid,
+  TouchableWithoutFeedback,
+  View,
+  Keyboard,
 } from 'react-native';
 
 import Navigation from './src/navigation/Navigation';
@@ -42,9 +45,11 @@ function App(): JSX.Element {
         <KeyboardAvoidingView
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          {/* <ScrollView keyboardShouldPersistTaps="handled"> */}
-          <Navigation />
-          {/* </ScrollView> */}
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={{flex: 1}}>
+              <Navigation />
+            </View>
+          </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </RecoilRoot>
     </SafeAreaView>

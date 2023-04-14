@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ScrollView, Alert} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -43,6 +43,7 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
       })
       .catch(error => {
         console.log(error);
+        Alert.alert('Error!', `There was an error logging in. Please try again!\n${error}`);
       });
     // store token in encrypted storage
     EncryptedStorage.setItem('token', authToken);
@@ -51,39 +52,41 @@ const Login: React.FC<LoginProps> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Logo size={24} />
+        <Logo size={24 * 6} />
       </View>
       <View style={styles.formContainer}>
-        <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
-          Login
-        </HrText>
-        <AppTextInput
-          placeholder="Roll Number"
-          value={rollNumber}
-          onChangeText={setRollNumber}
-          maxLength={8}
-          keyboardType="numeric"
-        />
-        <AppTextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <AppButton primary onPress={handleLogin}>
-          Continue
-        </AppButton>
-        <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
-          or
-        </HrText>
-        <AppButton
-          primary
-          onPress={() => navigation.navigate('ForgetPassword')}>
-          Forgot Passsword?
-        </AppButton>
-        <AppButton primary onPress={() => navigation.replace('Signup')}>
-          Signup
-        </AppButton>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
+            Login
+          </HrText>
+          <AppTextInput
+            placeholder="Roll Number"
+            value={rollNumber}
+            onChangeText={setRollNumber}
+            maxLength={8}
+            keyboardType="numeric"
+          />
+          <AppTextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <AppButton primary onPress={handleLogin}>
+            Continue
+          </AppButton>
+          <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
+            or
+          </HrText>
+          <AppButton
+            primary
+            onPress={() => navigation.navigate('ForgetPassword')}>
+            Forgot Passsword?
+          </AppButton>
+          <AppButton primary onPress={() => navigation.replace('Signup')}>
+            Signup
+          </AppButton>
+        </ScrollView>
       </View>
     </View>
   );
@@ -103,7 +106,5 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1.2,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

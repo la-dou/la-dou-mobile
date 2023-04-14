@@ -15,7 +15,7 @@ import {MainStackParamList} from '../navigation/MainStack';
 type PlaceBidsProps = NativeStackScreenProps<MainStackParamList, 'PlaceBids'>;
 
 type Job = {
-  order_id: string;
+  id: string;
   deliver_to: string;
   deliver_from: string;
   notes: string;
@@ -54,8 +54,8 @@ const PlaceBids: React.FC<PlaceBidsProps> = ({navigation}) => {
             key={index}
             onSubmitHandler={async (driverBid: Number) => {
               try {
-                await postBid(job.order_id, driverBid);
-                navigation.replace('WaitScreen', {order_id: job.order_id});
+                await postBid(job.id, driverBid);
+                navigation.replace('WaitScreen', {id: job.id});
               } catch (err) {
                 console.log(err);
               }

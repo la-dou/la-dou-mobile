@@ -144,3 +144,16 @@ export const cancelInProgressOrder = async () => {
   return response.data;
 }
 
+export const getOrderStatus = async (order_id: string|null) => {
+  const token = await EncryptedStorage.getItem('token');
+  const config = {
+    method: 'get',
+    url: `${API_URL}/orders/status?id=${order_id}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios(config);
+  return response.data;
+}

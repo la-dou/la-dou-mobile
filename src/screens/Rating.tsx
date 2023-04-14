@@ -6,7 +6,6 @@ import PrimaryTheme from '../theme/Primary';
 import {sendDriverRating} from '../api/Rating';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type RatingProps = NativeStackScreenProps<MainStackParamList, 'Rating'>;
 const Rating: React.FC<RatingProps> = ({navigation, route}) => {

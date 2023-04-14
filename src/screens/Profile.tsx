@@ -1,4 +1,4 @@
-import {StyleSheet, Alert, View} from 'react-native';
+import {StyleSheet, Alert, View, ScrollView} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useRecoilState} from 'recoil';
@@ -59,53 +59,57 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
-        My Profile
-      </HrText>
-      <AppTextInput
-        secondary
-        disabled
-        heading="Name"
-        value={userDetails.name}
-      />
-      <AppTextInput
-        secondary
-        disabled
-        heading="Roll Number"
-        placeholder="Roll Number"
-        value={String(userDetails.roll_no)}
-      />
-      <AppTextInput
-        secondary
-        disabled={isAdmin}
-        heading="Phone Number (03XX-XXXXXXX)"
-        placeholder="Phone Number"
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-        keyboardType="phone-pad"
-        maxLength={11}
-      />
-      <AppTextInput
-        secondary
-        secureTextEntry
-        heading="Old Password"
-        placeholder="(required to update profile)"
-        value={oldPassword}
-        onChangeText={setOldPassword}
-      />
-      <AppTextInput
-        secondary
-        secureTextEntry
-        heading="New Password"
-        placeholder="(leave blank if unchanged)"
-        value={newPassword}
-        onChangeText={setNewPassword}
-        containerStyle={styles.lastTextBox}
-      />
+      <View style={styles.innerContainer}>
+        <ScrollView>
+          <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
+            My Profile
+          </HrText>
+          <AppTextInput
+            secondary
+            disabled
+            heading="Name"
+            value={userDetails.name}
+          />
+          <AppTextInput
+            secondary
+            disabled
+            heading="Roll Number"
+            placeholder="Roll Number"
+            value={String(userDetails.roll_no)}
+          />
+          <AppTextInput
+            secondary
+            disabled={isAdmin}
+            heading="Phone Number (03XX-XXXXXXX)"
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="phone-pad"
+            maxLength={11}
+          />
+          <AppTextInput
+            secondary
+            secureTextEntry
+            heading="Old Password"
+            placeholder="(required to update profile)"
+            value={oldPassword}
+            onChangeText={setOldPassword}
+          />
+          <AppTextInput
+            secondary
+            secureTextEntry
+            heading="New Password"
+            placeholder="(leave blank if unchanged)"
+            value={newPassword}
+            onChangeText={setNewPassword}
+            containerStyle={styles.lastTextBox}
+          />
 
-      <AppButton primary onPress={handleSubmit}>
-        Update
-      </AppButton>
+          <AppButton primary onPress={handleSubmit}>
+            Update
+          </AppButton>
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -115,10 +119,14 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 50,
     padding: 30,
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginBottom: 20,
+  },
+  innerContainer: {
+    width: '100%',
   },
   lastTextBox: {
     marginBottom: 20,

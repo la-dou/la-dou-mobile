@@ -7,7 +7,7 @@ import InfoCard from '../components/InfoCard';
 import {getOrderHistory} from '../api/Jobs';
 
 type Order = {
-  order_id: string;
+  id: string;
   deliver_to : string;
   order_amount: Number;
   placed_at: string;

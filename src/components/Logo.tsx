@@ -3,7 +3,7 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 
 export type LogoProps = {
-  size: number;
+  size: number | string;
   noBackground?: boolean;
 };
 
@@ -19,8 +19,8 @@ const Logo: React.FC<LogoProps> = ({size, noBackground = false}) => {
           top: 5,
           right: 15,
           // set the size
-          width: size * 6,
-          height: size * 6,
+          width: size,
+          height: size,
           resizeMode: 'contain',
           tintColor: colors.primary,
           zIndex: 1,
@@ -32,7 +32,7 @@ const Logo: React.FC<LogoProps> = ({size, noBackground = false}) => {
       <Image
         source={require('../assets/images/logo-with-background.png')}
         style={{
-          height: size * 6, aspectRatio: 1}}
+          height: size, aspectRatio: 1}}
       />
     );
 };

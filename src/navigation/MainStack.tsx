@@ -52,14 +52,14 @@ export type MainStackParamList = {
   ViewBids: undefined;
   PlaceBids: undefined;
   WaitScreen: {
-    order_id: string;
+    id: string;
   };
   Chat: {
     guest_roll_no: Number;
   };
   AcceptBid: undefined;
   DriverProgress: {
-    order_id: string;
+    id: string;
   };
 };
 
@@ -73,16 +73,16 @@ const MainNav = () => {
         header: () => (
           <>
             <BackButton />
-            <Logo size={12} noBackground />
+            <Logo size={12*6} noBackground />
           </>
         ),
-        headerRight: () => <Logo size={12} noBackground />,
+        headerRight: () => <Logo size={12*6} noBackground />,
       }}
       initialRouteName="Home">
       <MainStack.Screen
         name="Home"
         component={Home}
-        options={{header: () => <Logo size={12} noBackground />}}
+        options={{header: () => <Logo size={12*6} noBackground />}}
       />
       <MainStack.Screen
         name="Otp"
@@ -94,7 +94,6 @@ const MainNav = () => {
       <MainStack.Screen name="Profile" component={Profile} />
       <MainStack.Screen name="Search" component={Search} />
       <MainStack.Screen name="Rating" component={Rating} />
-      {/* navigation.navigate('Rating', {driver_roll_number: 24100043}); */}
       <MainStack.Screen name="PlaceOrder" component={PlaceOrder} />
       <MainStack.Screen name="OrderHistory" component={OrderHistory} />
       <MainStack.Screen name="UserDetails" component={UserDetails} />

@@ -34,3 +34,8 @@ export const role = atom({
   default: 'customer' as 'customer' | 'driver' | 'admin',
 });
 
+export const inProgressOrderId = atom({
+  key: 'inProgressOrderId',
+  default: null as null | string,
+})
+

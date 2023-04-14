@@ -78,7 +78,7 @@ const Otp: React.FC<OtpProps> = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Logo size={24} />
+        <Logo size={24 * 6} />
       </View>
       <View style={styles.formContainer}>
         <HrText hrColor={colors.text} textStyle={{color: colors.text}}>
